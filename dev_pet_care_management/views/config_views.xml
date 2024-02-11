@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (C) 2015 DevIntelle Consulting Service Pvt.Ltd (<http://www.devintellecs.com>).
+
+For Module Support : devintelle@gmail.com  or Skype : devintelle 
+ -->
+<odoo>
+    <record id="view_dev_pet_type_tree" model="ir.ui.view">
+        <field name="name">view.dev.pet.type.tree</field>
+        <field name="model">dev.pet.type</field>
+        <field name="arch" type="xml">
+            <tree string="Type" editable="top">
+                <field name="name" required="1"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="action_dev_pet_type" model="ir.actions.act_window">
+        <field name="name">Type</field>
+        <field name="res_model">dev.pet.type</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <menuitem name="Type" id="menu_dev_pet_type" parent="menu_dev_pet_configration" 
+              action="action_dev_pet_type" sequence="1"/>
+    
+    <record id="view_dev_pet_category_tree" model="ir.ui.view">
+        <field name="name">view.dev.pet.category.tree</field>
+        <field name="model">dev.pet.category</field>
+        <field name="arch" type="xml">
+            <tree string="Category" editable="top">
+                <field name="name" required="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_dev_pet_category" model="ir.actions.act_window">
+        <field name="name">Category</field>
+        <field name="res_model">dev.pet.category</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <menuitem name="Category" id="menu_dev_pet_category" parent="menu_dev_pet_configration" 
+              action="action_dev_pet_category" sequence="2"/>
+    
+    <record id="view_dev_pet_tags_tree" model="ir.ui.view">
+        <field name="name">view.dev.pet.tags.tree</field>
+        <field name="model">dev.pet.tags</field>
+        <field name="arch" type="xml">
+            <tree string="Tags" editable="top">
+                <field name="name" required="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_dev_pet_tags" model="ir.actions.act_window">
+        <field name="name">Tags</field>
+        <field name="res_model">dev.pet.tags</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <menuitem name="Tags" id="menu_dev_pet_tags" parent="menu_dev_pet_configration" 
+              action="action_dev_pet_tags" sequence="3"/>
+              
+    <record id="view_dev_pet_medical_question_tree" model="ir.ui.view">
+        <field name="name">view.dev.pet.medical.question.tree</field>
+        <field name="model">dev.medical.question</field>
+        <field name="arch" type="xml">
+            <tree string="Medical Question" editable="top">
+                <field name="name" required="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_dev_pet_medical_question" model="ir.actions.act_window">
+        <field name="name">Medical Question</field>
+        <field name="res_model">dev.medical.question</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <menuitem name="Medical Question" id="menu_dev_pet_medical_question" parent="menu_dev_pet_configration" 
+              action="action_dev_pet_medical_question" sequence="4"/>
+    
+    <record id="view_dev_pet_medical_ans_tree" model="ir.ui.view">
+        <field name="name">view.dev.pet.medical.ans.tree</field>
+        <field name="model">dev.medical.ans</field>
+        <field name="arch" type="xml">
+            <tree string="Medical Answer" editable="top">
+                <field name="name" required="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_dev_pet_medical_ans" model="ir.actions.act_window">
+        <field name="name">Medical Answer</field>
+        <field name="res_model">dev.medical.ans</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <menuitem name="Medical Answer" id="menu_dev_pet_medical_answer" parent="menu_dev_pet_configration" 
+              action="action_dev_pet_medical_ans" sequence="5"/>
+    
+    
+    
+    <record id="view_dev_pet_vaccine_tree" model="ir.ui.view">
+        <field name="name">view.dev.pet.vaccine.tree</field>
+        <field name="model">dev.pet.vaccine</field>
+        <field name="arch" type="xml">
+            <tree string="Pet Vaccine" editable="top">
+                <field name="name" required="1"/>
+                <field name="expire_on" string='Validity(Year)' required="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_dev_pet_vaccine" model="ir.actions.act_window">
+        <field name="name">Pet Vaccine</field>
+        <field name="res_model">dev.pet.vaccine</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <menuitem name="Pet Vaccine" id="menu_dev_pet_vaccine" parent="menu_dev_pet_configration" 
+              action="action_dev_pet_vaccine" sequence="6"/>
+              
+    
+    <record id="view_dev_bording_type_tree" model="ir.ui.view">
+        <field name="name">view.dev.bording.type.tree</field>
+        <field name="model">dev.bording.type</field>
+        <field name="arch" type="xml">
+            <tree string="Boarding Type" editable="top">
+                <field name="name" required="1"/>
+                <field name="charge" string='Charge' required="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_dev_bording_type" model="ir.actions.act_window">
+        <field name="name">Boarding Type</field>
+        <field name="res_model">dev.bording.type</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+    <menuitem name="Boarding Type" id="menu_dev_bording_type" parent="menu_dev_pet_configration" 
+              action="action_dev_bording_type" sequence="7"/>
+              
+    
+    
+</odoo>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record model="animal.type" id="animal_1">
+            <field name="name">Dog</field>
+        </record>
+        <record model="animal.type" id="animal_2">
+            <field name="name">Cat</field>
+        </record>
+        <record model="animal.type" id="animal_3">
+            <field name="name">Rabbits</field>
+        </record>
+        <record model="animal.type" id="animal_4">
+            <field name="name">Cow</field>
+        </record>
+        <record model="animal.type" id="animal_5">
+            <field name="name">Horse</field>
+        </record>
+        <record model="animal.type" id="animal_6">
+            <field name="name">Monkey</field>
+        </record>
+        <record model="animal.type" id="animal_7">
+            <field name="name">Tortoise</field>
+        </record>
+        <record model="animal.type" id="animal_8">
+            <field name="name">Hamster</field>
+        </record>
+        <record model="animal.type" id="animal_9">
+            <field name="name">Ox</field>
+        </record>
+        <record model="animal.type" id="animal_10">
+            <field name="name">Deer</field>
+        </record>
+        <record model="animal.vaccine" id="vaccine_1">
+            <field name="name">Raksharab</field>
+        </record>
+        <record model="animal.vaccine" id="vaccine_2">
+            <field name="name">Megavac 7</field>
+        </record>
+        <record model="animal.vaccine" id="vaccine_3">
+            <field name="name">Megavac-CC</field>
+        </record>
+        <record model="animal.vaccine" id="vaccine_4">
+            <field name="name">Canine distemper virus</field>
+        </record>
+        <record model="animal.vaccine" id="vaccine_5">
+            <field name="name">Canine adenovirus (CAV)</field>
+        </record>
+        <record model="animal.vaccine" id="vaccine_6">
+            <field name="name">Canine Parvovirus (CPV-2)</field>
+        </record>
+        <record model="animal.vaccine" id="vaccine_7">
+            <field name="name">Feline parvovirus (FPV)</field>
+        </record>
+        <record model="animal.vaccine" id="vaccine_8">
+            <field name="name">Toxoid</field>
+        </record>
+        <record model="animal.vaccine" id="vaccine_9">
+            <field name="name">Viral vector</field>
+        </record>
+        <record model="animal.vaccine" id="vaccine_10">
+            <field name="name">Inactivated</field>
+        </record>
+
+
+        <record model="medical.report" id="report_1">
+            <field name="name">Cytology</field>
+        </record>
+        <record model="medical.report" id="report_2">
+            <field name="name">Fluid Analysis</field>
+        </record>
+        <record model="medical.report" id="report_3">
+            <field name="name">Hematology</field>
+        </record>
+        <record model="medical.report" id="report_4">
+            <field name="name">Histology</field>
+        </record>
+        <record model="medical.report" id="report_5">
+            <field name="name">Clinical Chemistry</field>
+        </record>
+        <record model="medical.report" id="report_6">
+            <field name="name">Microbiology</field>
+        </record>
+        <record model="medical.report" id="report_7">
+            <field name="name">Serology</field>
+        </record>
+        <record model="medical.report" id="report_8">
+            <field name="name">Toxicology</field>
+        </record>
+        <record model="hospital.disease.type" id="disease_1">
+            <field name="name">Aflatoxicosis</field>
+        </record>
+        <record model="hospital.disease.type" id="disease_2">
+            <field name="name">Akabane disease</field>
+        </record>
+        <record model="hospital.disease.type" id="disease_3">
+            <field name="name">Bovine ephemeral fever</field>
+        </record>
+        <record model="hospital.disease.type" id="disease_4">
+            <field name="name">Bovine viral diarrhoea virus</field>
+        </record>
+        <record model="hospital.disease.type" id="disease_5">
+            <field name="name">Brucellosis</field>
+        </record>
+        <record model="hospital.disease.type" id="disease_6">
+            <field name="name">Canine ehrlichiosis</field>
+        </record>
+        <record model="hospital.disease.type" id="disease_7">
+            <field name="name">Caprine arthritis encephalitis</field>
+        </record>
+        <record model="hospital.disease.type" id="disease_8">
+            <field name="name">Leptospirosis</field>
+        </record>
+        <record model="hospital.disease.type" id="disease_9">
+            <field name="name">Psittacosis</field>
+        </record>
+        <record model="hospital.disease.type" id="disease_10">
+            <field name="name">Screw-worm fly</field>
+        </record>
+        <record model="service.type" id="service_1">
+            <field name="name">Grooming</field>
+        </record>
+        <record model="service.type" id="service_2">
+            <field name="name">Training</field>
+        </record>
+
+
+        <record model="grooming.type" id="grooming_1">
+            <field name="name">Bathing and Shampooing</field>
+            <field name="charge">100</field>
+        </record>
+        <record model="grooming.type" id="grooming_2">
+            <field name="name">Brushing and Combing</field>
+            <field name="charge">100</field>
+        </record>
+        <record model="grooming.type" id="grooming_3">
+            <field name="name">Hair Trimming and Clipping</field>
+            <field name="charge">100</field>
+        </record>
+        <record model="grooming.type" id="grooming_4">
+            <field name="name">Nail Trimming</field>
+            <field name="charge">100</field>
+        </record>
+        <record model="grooming.type" id="grooming_5">
+            <field name="name">Ear Cleaning</field>
+            <field name="charge">100</field>
+        </record>
+        <record model="grooming.type" id="grooming_6">
+            <field name="name">Teeth Brushing</field>
+            <field name="charge">100</field>
+        </record>
+        <record model="grooming.type" id="grooming_7">
+            <field name="name">Gland Expression</field>
+            <field name="charge">100</field>
+        </record>
+        <record model="grooming.type" id="grooming_8">
+            <field name="name">Fur Styling and Grooming</field>
+            <field name="charge">100</field>
+        </record>
+        <record model="grooming.type" id="grooming_9">
+            <field name="name">De-Shedding</field>
+            <field name="charge">100</field>
+        </record>
+        <record model="grooming.type" id="grooming_10">
+            <field name="name">Paw Pad Care</field>
+            <field name="charge">100</field>
+        </record>
+    </data>
+</odoo>

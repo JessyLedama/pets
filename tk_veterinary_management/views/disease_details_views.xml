@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="disease_form_view" model="ir.ui.view">
+            <field name="name">disease.form.view</field>
+            <field name="model">hospital.disease</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group string="Animal Details">
+                            <group>
+                                <field name="patient_id" string="Animal Number"/>
+                            </group>
+                            <group>
+                                <field name="patient_name" string="Patient Name"/>
+                            </group>
+                        </group>
+                        <group string="Disease Details">
+                            <group>
+                                <field name="disease_id"/>
+                                <field name="disease_type"/>
+                            </group>
+                            <group>
+                                <field name="start"/>
+                                <field name="end"/>
+                                <field name="medicine"/>
+                                <field name="allergy"/>
+                                <field name="allergy_description"/>
+                            </group>
+                        </group>
+                    </sheet>
+                      <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="disease_tree_view" model="ir.ui.view">
+            <field name="name">patient.tree.view</field>
+            <field name="model">hospital.disease</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="patient_id" string="Animal Number"/>
+                    <field name="disease_id"/>
+                    <field name="disease_type"/>
+                    <field name="start"/>
+                    <field name="end"/>
+                    <field name="medicine"/>
+                    <field name="allergy"/>
+                    <field name="allergy_description"/>
+                </tree>
+            </field>
+        </record>
+        <record id="disease_action" model="ir.actions.act_window">
+            <field name="name">Disease</field>
+            <field name="res_model">hospital.disease</field>
+            <field name="view_mode">tree,form,activity</field>
+        </record>
+    </data>
+</odoo>

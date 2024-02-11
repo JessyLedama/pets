@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="grooming_details_form_view" model="ir.ui.view">
+            <field name="name">grooming.details.form.view</field>
+            <field name="model">grooming.details</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar" nolabel="1" />
+                        <field name="invoice_id" invisible="1" />
+                        <button name="action_confirm_appointment" type="object"
+                            string="Confirm Appointment"
+                            class="btn btn-primary" attrs="{'invisible':[('state','!=','draft')]}" />
+                        <button name="action_cancel_appointment" type="object" string="Cancel"
+                            class="btn btn-danger"
+                            attrs="{'invisible':[('state','!=','draft')]}" />
+                        <button name="action_invoices" type="object" string="Create Invoice"
+                            class="oe_highlight"
+                            attrs="{'invisible':['|',('state','!=','in_consultation'),'|',('grooming_product_ids','=',[]),('invoice_id','!=',False)]}" />
+                        <button name="action_complete_appointment" string="Complete Appointment"
+                            attrs="{'invisible':['|', ('is_invoice_created', '=', False), ('state', '!=', 'in_consultation')]}"
+                            class="oe_highlight" type="object" />
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="grooming_no" />
+                            </h1>
+                        </div>
+                        <group string="Appointment Details">
+                            <group>
+                                <field name="appointment_date" required="1"
+                                    attrs="{'readonly':[('state', '!=', 'draft')]}" />
+                            </group>
+                            <group>
+                                <field name="patient_id" required="1"
+                                    attrs="{'readonly':[('state', '!=', 'draft')]}" />
+                            </group>
+                        </group>
+                        <group string="Grooming Details">
+                            <group>
+                                <field name="grooming_emp_ids" invisible="1" />
+                                <field name="grooming_employee_id" widget="many2one_avatar_user"
+                                    required="1" attrs="{'readonly':[('state', '!=', 'draft')]}" />
+                            </group>
+                            <group>
+                                <field name="is_invoice_created" invisible="1" />
+                                <field name="invoice_id"
+                                    attrs="{'invisible':[('invoice_id','=',False)]}" readonly="1" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Grooming Services"
+                                attrs="{'invisible':[('state', 'in', ['draft', 'cancel'])]}">
+                                <field name="grooming_product_ids"
+                                    attrs="{'readonly':[('state', 'in', ['done', 'cancel'])]}">
+                                    <tree editable="bottom">
+                                        <field name="product_id" required="1" />
+                                        <field name="desc" widget="html" />
+                                        <field name="company_id" invisible="1" />
+                                        <field name="currency_id" invisible="1" />
+                                        <field name="price" required="1" />
+                                    </tree>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right" style="text-align: right">
+                                    <field name="total_charge" />
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" />
+                        <field name="activity_ids" />
+                        <field name="message_ids" />
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="grooming_search_view" model="ir.ui.view">
+            <field name="name">grooming.search.view</field>
+            <field name="model">grooming.details</field>
+            <field name="arch" type="xml">
+                <!-- <search>
+                    <field name="grooming_no" />
+                    <field name="appointment_date" />
+                    <group string="Group By" expand="0">
+                        <filter string="Appointment Date" name="appointment_date"
+                            context="{'group_by':'appointment_date'}" />
+                        <filter string="State" name="state" context="{'group_by':'state'}" />
+                    </group>
+                </search> -->
+                <search>
+                    <field name="grooming_no" />
+                    <field name="appointment_date" />
+                    <field name="grooming_employee_id" />
+                    <field name="total_charge" />
+
+                    <filter string="Draft" name="state" domain="[('state', '=', 'draft')]" />
+                    <filter string="In Consultation" name="state"
+                        domain="[('state', '=', 'in_consultation')]" />
+                    <filter string="Closed" name="state" domain="[('state', '=', 'done')]" />
+                    <filter string="Cancelled" name="state" domain="[('state', '=', 'cancel')]" />
+                    <separator />
+                    <filter name="appointment_date" string="Appointment Date"
+                        date="appointment_date" />
+
+                    <group string="Group By" expand="0">
+                        <filter string="Appointment Date" name="appointment_date"
+                            context="{'group_by':'appointment_date'}" />
+                        <separator />
+                        <filter string="State" name="state" context="{'group_by':'state'}" />
+                        <separator />
+                        <filter string="Grooming Employee" name="grooming_employee_id"
+                            context="{'group_by': 'grooming_employee_id'}" />
+                        <separator />
+                        <filter string="Animal" name="animal"
+                            context="{'group_by':'patient_id'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="grooming_details_tree_view" model="ir.ui.view">
+            <field name="name">grooming.details.tree.view</field>
+            <field name="model">grooming.details</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="grooming_no" />
+                    <field name="appointment_date" />
+                    <field name="grooming_employee_id" widget="many2one_avatar_user" />
+                    <field name="currency_id" invisible="1" />
+                    <field name="total_charge" />
+                    <field name="state" widget="badge"
+                        decoration-warning="state == 'in_consultation'"
+                        decoration-success="state == 'done'"
+                        decoration-danger="state == 'cancel'" />
+                </tree>
+            </field>
+        </record>
+        <record id="grooming_details_action" model="ir.actions.act_window">
+            <field name="name">Grooming Details</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">grooming.details</field>
+            <field name="view_mode">tree,form,activity</field>
+        </record>
+    </data>
+</odoo>

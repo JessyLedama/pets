@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="patient_form_view" model="ir.ui.view">
+            <field name="name">patient.form.view</field>
+            <field name="model">hospital.patient</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="stages" widget="statusbar" invisible="1"/>
+                        <button name="%(appointment_wizard_action)d" type='action' string="Create Appointment"
+                                context="{'default_patient_id':active_id}" class="btn-primary"/>
+                        <button string="Draft" name="done_to_draft" type="object" class="btn btn-info"
+                                attrs="{'invisible': [('stages', 'not in', ['done'])]}"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" type="object" name="action_training"
+                                    icon="fa-pencil-square-o">
+                                <field name="training_count" string="Training" widget="statinfo"/>
+                            </button>
+                            <button class="oe_stat_button" type="object" name="action_grooming"
+                                    icon="fa-scissors">
+                                <field name="grooming_count" string="Grooming" widget="statinfo"/>
+                            </button>
+                            <button class="oe_stat_button" type="object" name="action_procedures_case"
+                                    icon="fa-list-alt">
+                                <field name="procedures_count" string="Procedures" widget="statinfo"/>
+                            </button>
+                            <button class="oe_stat_button" type="object" name="action_view_surgery"
+                                    icon="fa-user-md">
+                                <field name="surgery_count" string="Surgeries" widget="statinfo"/>
+                            </button>
+                            <button class="oe_stat_button" type="object" name="action_prescription_appointment"
+                                    icon="fa-thumb-tack">
+                                <field name="prescription_count" string="Prescriptions" widget="statinfo"/>
+                            </button>
+                            <button class="oe_stat_button" type="object" name="action_patient_report_count"
+                                    icon="fa-file-text">
+                                <field name="patient_report_count" string="Reports" widget="statinfo"/>
+                            </button>
+                            <button class="oe_stat_button" type="object" name="action_invoices"
+                                    icon="fa-credit-card">
+                                <field name="invoice_count" string="Invoices" widget="statinfo"/>
+                            </button>
+                        </div>
+
+                        <div class="oe_title">
+                            <h1>
+                                <field name="patient_sequence_number"/>
+                            </h1>
+                        </div>
+                        <group string="Animal Details">
+                            <group>
+                                <field name="patient_name" string="Name"/>
+                                <field name="bird_type"/>
+                                <field name="bird"/>
+                            </group>
+                            <group>
+                                <field name="gender"/>
+                                <label for="age" class="mt-1" string="Age"/>
+                                <div name="age">
+                                    <field name="age" class="oe_inline"/>&#160;&#160;/
+                                    <field name="age_type" nolabel="1" class="oe_inline"/>
+                                </div>
+                                <field name="id_number"/>
+                                <field name="behaviour"/>
+                            </group>
+                        </group>
+                        <group string="Owner Details">
+                            <group>
+                                <field name="customer_id"/>
+                                <field name="phone"/>
+                                <field name="email"/>
+                            </group>
+                            <group>
+                                <span class="o_form_label o_td_label" name="address_name">
+                                    <strong>Address</strong>
+                                </span>
+                                <div class="o_address_format">
+                                    <field name="street" placeholder="Street..." class="o_address_street"/>
+                                    <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                    <field name="city" placeholder="City" class="o_address_city"/>
+                                    <field name="state_id" class="o_address_state" placeholder="State"
+                                           options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                                    <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                    <field name="country_id" placeholder="Country" class="o_address_country"
+                                           options="{'no_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                                </div>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="General info">
+                                <group>
+                                    <group>
+                                        <field name="color"/>
+                                        <field name="height"/>
+                                        <field name="weight"/>
+                                    </group>
+                                    <group>
+                                        <field name="blood_type"/>
+                                        <field name="rh"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Medical History">
+                                <field name="disease_ids">
+                                    <tree editable="bottom">
+                                        <field name="disease_id" invisible="1"/>
+                                        <field name="disease_ids" widget="many2many_tags"/>
+                                        <field name="disease_type" string="Description" />
+                                        <field name="start" />
+                                        <field name="end" />
+                                        <field name="medicine" />
+                                        <field name="allergy" />
+                                        <field name="allergy_description"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Vaccination History">
+                                <field name="vaccination_ids">
+                                    <tree editable="bottom">
+                                        <field name="vaccination_name"/>
+                                        <field name="vaccine_data"/>
+                                        <field name="vaccine_end" string="Expiry Date"/>
+                                        <field name="description"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="patient_search_view" model="ir.ui.view">
+            <field name="name">patient.search.view</field>
+            <field name="model">hospital.patient</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="patient_sequence_number" />
+                    <field name="patient_name" />
+                    <field name="bird_type" />
+                    <field name="bird" />
+                    <field name="gender" />
+                    <field name="age" />
+                    <field name="age_type" />
+                    <field name="customer_id" string="Pet Owner Name" />
+
+
+                    <filter string="Male" name="gender" domain="[('gender', '=', 'm')]" />
+                    <filter string="Female" name="gender" domain="[('gender', '=', 'f')]" />
+                    <separator />
+                    <group string="Group by" expand="0">
+                        <filter string="Pet Type" name="groupby_type" domain="[]"
+                            context="{'group_by': 'bird_type'}" />
+                        <filter string="Breed" name="groupby_breed" domain="[]"
+                            context="{'group_by': 'bird'}" />
+                        <separator/>
+                        <filter string="Gender" name="groupby_gender" domain="[]"
+                            context="{'group_by': 'gender'}"/>
+                    </group>
+                    <separator />
+                </search>
+            </field>
+        </record>
+        <record id="patient_tree_view" model="ir.ui.view">
+            <field name="name">patient.tree.view</field>
+            <field name="model">hospital.patient</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="patient_sequence_number" string="Sequence Number"/>
+                    <field name="patient_name"/>
+                    <field name="bird_type"/>
+                    <field name="bird"/>
+                    <field name="gender"/>
+                    <field name="age"/>
+                    <field name="age_type"/>
+                    <field name="customer_id"/>
+                    <field name="phone"/>
+                </tree>
+            </field>
+        </record>
+        <record id="patient_action" model="ir.actions.act_window">
+            <field name="name">Animals</field>
+            <field name="res_model">hospital.patient</field>
+            <field name="view_mode">tree,form,activity</field>
+        </record>
+    </data>
+</odoo>

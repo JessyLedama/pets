@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hospital_maintenance_form_view" model="ir.ui.view">
+            <field name="name">hospital.maintenance.form.view</field>
+            <field name="model">hospital.maintenance</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="stages" widget="statusbar"
+                            statusbar_visible="draft,in_progress,complete" />
+                        <button string="In Progress" name="draft_to_in_progress" type="object"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('stages', 'not in', ['draft'])]}" />
+                        <button class="oe_highlight" type="object" name="action_create_agent_bill"
+                            string="Create Bill"
+                            attrs="{'invisible': ['|', ('stages', 'not in', ['in_progress']), ('supplier_bill_id', '!=', False)]}" />
+                        <button string="Cancel" name="complete_to_cancel" type="object"
+                            attrs="{'invisible': [('stages', 'not in', ['in_progress'])]}" />
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="seq_no" />
+                            </h1>
+                        </div>
+                        <group string="Maintenance Details">
+                            <group>
+                                <field name="type" required="1"
+                                    attrs="{'readonly':[('stages', '!=', 'draft')]}" />
+                                <field name="cleaner_id" string="Employee"
+                                    attrs="{'readonly':[('stages', '!=', 'draft')]}"
+                                    options="{'no_open': True}" />
+                                <field name="support_staff_ids" invisible="1" />
+                            </group>
+                            <group>
+                                <field name="maintenance_date" required="1"
+                                    attrs="{'readonly':[('stages', '!=', 'draft')]}" />
+                                <field name="supplier_id"
+                                    attrs="{'readonly':[('stages', '!=', 'draft')]}" />
+                                <field name="supplier_bill_id"
+                                    attrs="{'invisible': [('supplier_bill_id', '=', False)]}"
+                                    readonly="1" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="maintenance_services" string="Maintenance Services"
+                                attrs="{'invisible':[('stages', '=', 'draft')]}">
+                                <field name="maintenance_service_ids" nolabel="1"
+                                    attrs="{'readonly':[('stages', 'in', ['complete', 'cancel'])]}">
+                                    <tree editable="bottom">
+                                        <field name="product_id" />
+                                        <field name="description" />
+                                        <field name="qty" />
+                                        <field name="unit_price" />
+                                        <field name="company_id" invisible="1" />
+                                        <field name="currency_id" invisible="1" />
+                                    </tree>
+                                </field>
+                                <group class="oe_right" style="text-align: right"
+                                    string="Total Charge">
+                                    <field name="maintenance_charge" />
+                                    <field name="company_id" invisible="1" />
+                                    <field name="currency_id" invisible="1" />
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" />
+                        <field name="activity_ids" />
+                        <field name="message_ids" />
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="hospital_maintenance_tree_view" model="ir.ui.view">
+            <field name="name">hospital.maintenance.tree.view</field>
+            <field name="model">hospital.maintenance</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="seq_no" />
+                    <field name="type" />
+                    <field name="maintenance_date" />
+                    <field name="supplier_id" />
+                    <field name="stages" widget="badge"
+                        decoration-info="stages == 'draft'"
+                        decoration-warning="stages == 'in_progress'"
+                        decoration-success="stages == 'complete'"
+                        decoration-danger="stages == 'cancel'" />
+                </tree>
+            </field>
+        </record>
+        <record id="hospital_maintenance_search_view" model="ir.ui.view">
+            <field name="name">hospital.maintenance.search.view</field>
+            <field name="model">hospital.maintenance</field>
+            <field name="arch" type="xml">
+                <!-- <search>
+                    <field name="seq_no" />
+                    <group string="Group By">
+                        <filter name="type" string="Maintenance Types"
+                            context="{'group_by': 'type'}" />
+                    </group>
+                </search> -->
+                <search>
+                    <field name="seq_no"/>
+                    <field name="type"/>
+                    <field name="stages"/>
+                    <field name="maintenance_date"/>
+                    <field name="supplier_id"/>
+
+                    <filter name="date" string="Maintenance Date" date="maintenance_date"/>
+                    <separator/>
+                    <filter name="stage" string="Draft" domain="[('stages', '=', 'draft')]"/>
+                    <filter name="stage" string="In Progress" domain="[('stages', '=', 'in_progress')]"/>
+                    <filter name="stage" string="Completed" domain="[('stages', '=', 'complete')]"/>
+                    <filter name="stage" string="Cancelled" domain="[('stages', '=', 'cancel')]"/>
+
+                    <group string="Group By">
+                        <filter name="type" string="Maintenance Types"
+                                context="{'group_by': 'type'}"/>
+                        <separator/>
+                        <filter name="stage" string="Stages"
+                                context="{'group_by': 'stages'}"/>
+                        <separator/>
+                        <filter name="date" string="Maintenance Date"
+                                context="{'group_by': 'maintenance_date'}"/>
+                        <separator/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="hospital_maintenance_action" model="ir.actions.act_window">
+            <field name="name">Maintenance Order</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hospital.maintenance</field>
+            <field name="view_mode">tree,form,search,activity</field>
+        </record>
+    </data>
+</odoo>

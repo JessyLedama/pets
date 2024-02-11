@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="patient_case_qweb_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.internal_layout">
+                    <div class="page">
+                        <h2 style="border-bottom:1px solid black;padding-bottom:10px;">
+                            Case Details
+                        </h2>
+                        <br/>
+                        <table class="table table-borderless">
+                            <tr>
+                                <td style="width:33.33%;">
+                                    Customer
+                                    <br/>
+                                    <h5>
+                                        <strong>
+                                            <span t-field="doc.patient_id.customer_id.name"/>
+                                        </strong>
+                                    </h5>
+                                </td>
+
+                                <td style="width:33.33%;">
+                                    Ref.
+                                    <br/>
+                                    <h5>
+                                        <strong>
+                                            <span t-field="doc.case_seq"/>
+                                        </strong>
+                                    </h5>
+                                </td>
+                                <td style="width:33.33%;">
+                                    Appointment Date
+                                    <br/>
+                                    <h5>
+                                        <strong>
+                                            <span t-field="doc.appointment_date"/>
+                                        </strong>
+                                    </h5>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:33.33%;">
+                                    Animals
+                                    <br/>
+                                    <h5>
+                                        <strong>
+                                            <span t-field="doc.patient_id.patient_name"/>
+                                        </strong>
+                                    </h5>
+                                </td>
+                                <td style="width:33.33%;">
+                                    Breed
+                                    <br/>
+                                    <h5>
+                                        <strong>
+                                            <span t-field="doc.patient_id.bird"/>
+                                        </strong>
+                                    </h5>
+                                </td>
+                                <td style="width:33.33%;">
+                                    Animal Id
+                                    <br/>
+                                    <h5>
+                                        <strong>
+                                            <span t-field="doc.patient_id.id_number"/>
+                                        </strong>
+                                    </h5>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <h5 style="border-bottom:1px solid black;padding-bottom:10px;padding-top:10px;">
+                            ➤ Disease
+                        </h5>
+                        <table class="table table-borderless">
+                            <tr>
+                                <td style="width:25%;">
+                                    Disease
+                                </td>
+                                <td style="width:75%;">
+                                    <strong>
+                                        <span t-esc="', '.join(map(lambda x: (x.name), doc.disease_ids))"
+                                              id="line_disease_ids"/>
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:25%;">
+                                    Disease Description
+                                </td>
+                                <td style="width:75%;">
+                                    <strong>
+                                        <span t-field="doc.disease_description"/>
+                                    </strong>
+                                </td>
+                            </tr>
+                        </table>
+                        <t t-if="doc.is_any_treatment">
+                            <h5 style="border-bottom:1px solid black;padding-bottom:10px;padding-top:10px;">
+                                ➤ Treatment
+                            </h5>
+                            <table class="table table-borderless">
+                                <tr style="background-color:#e9ecef;">
+                                    <td style="width:30%;">
+                                        Treatment
+                                    </td>
+                                    <td style="width:50%;">
+                                        Precautions
+                                    </td>
+                                    <td style="width:25%;text-align:right;">
+                                        Charge
+                                    </td>
+                                </tr>
+                                <t t-foreach="doc.treatment_ids" t-as="t">
+                                    <tr style="border-bottom: 1px solid #cdc2c2;">
+                                        <td style="width:30%;">
+                                            <strong>
+                                                <span t-field="t.description"/>
+                                            </strong>
+                                        </td>
+                                        <td style="width:50%;">
+                                            <strong>
+                                                <span t-field="t.precautions"/>
+                                            </strong>
+                                        </td>
+                                        <td style="width:25%;text-align:right;">
+                                            <strong>
+                                                <span t-field="t.charges"/>
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </table>
+                            <h5 style="border-bottom:1px solid black;padding-bottom:10px;padding-top:10px;">
+                                ➤ Medical Report
+                            </h5>
+                            <table class="table table-borderless">
+                                <tr style="background-color:#e9ecef;">
+                                    <td style="width:33.33%;">
+                                        Report
+                                    </td>
+                                    <td style="width:33.33%;">
+                                        Date
+                                    </td>
+                                    <td style="width:33.33%;text-align:right;">
+                                        Price
+                                    </td>
+                                </tr>
+                                <t t-foreach="doc.report_ids" t-as="t">
+                                    <tr style="border-bottom: 1px solid #cdc2c2;">
+                                        <td style="width:33.33%;">
+                                            <strong>
+                                                <span t-field="t.report_id"/>
+                                            </strong>
+                                        </td>
+                                        <td style="width:33.33%;">
+                                            <strong>
+                                                <span t-field="t.date"/>
+                                            </strong>
+                                        </td>
+                                        <td style="width:33.33%;text-align:right;">
+                                            <strong>
+                                                <span t-field="t.price"/>
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </table>
+                            <t t-if="doc.is_admit">
+                                <h5 style="border-bottom:1px solid black;padding-bottom:10px;padding-top:10px;">
+                                    ➤ Admit Details
+                                </h5>
+                                <table class="table table-borderless">
+                                    <tr>
+                                        <td style="width:25%;background-color:#e9ecef;">
+                                            Room No.
+                                        </td>
+                                        <td style="width:25%;">
+                                            <strong>
+                                                <span t-field="doc.room_id"/>
+                                            </strong>
+                                        </td>
+                                        <td style="width:25%;background-color:#e9ecef;">
+                                            Table No.
+                                        </td>
+                                        <td style="width:25%;">
+                                            <strong>
+                                                <span t-field="doc.bed_id"/>
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:25%;background-color:#e9ecef;">
+                                            Admit Date
+                                        </td>
+                                        <td style="width:25%;">
+                                            <strong>
+                                                <span t-field="doc.admit_date"/>
+                                            </strong>
+                                        </td>
+                                        <td style="width:25%;background-color:#e9ecef;">
+                                            Discharge Date
+                                        </td>
+                                        <td style="width:25%;">
+                                            <strong>
+                                                <span t-field="doc.discharge_date"/>
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:25%;background-color:#e9ecef;">
+                                            Total Hours
+                                        </td>
+                                        <td style="width:25%;">
+                                            <strong>
+                                                <span t-field="doc.hours"/>
+                                            </strong>
+                                        </td>
+                                        <td style="width:25%;background-color:#e9ecef;">
+                                            Total
+                                        </td>
+                                        <td style="width:25%;">
+                                            <strong>
+                                                <span t-field="doc.total_admit_charge"/>
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </t>
+                        </t>
+                        <t t-if="doc.is_vaccination">
+                            <h5 style="border-bottom:1px solid black;padding-bottom:10px;padding-top:10px;">
+                                ➤ Vaccination
+                            </h5>
+                            <table class="table table-borderless">
+                                <tr style="background-color:#e9ecef;">
+                                    <td style="width:20%;">
+                                        Vaccine
+                                    </td>
+                                    <td style="width:20%;">
+                                        Vaccination Date
+                                    </td>
+                                    <td style="width:20%;">
+                                        Expiry Date
+                                    </td>
+                                    <td style="width:30%;">
+                                        Description
+                                    </td>
+                                    <td style="width:10%;text-align:right;">
+                                        Charges
+                                    </td>
+                                </tr>
+                                <t t-foreach="doc.vaccination_ids" t-as="t">
+                                    <tr style="border-bottom: 1px solid #cdc2c2;">
+                                        <td style="width:20%;">
+                                            <strong>
+                                                <span t-field="t.vaccination_name"/>
+                                            </strong>
+                                        </td>
+                                        <td style="width:20%;">
+                                            <strong>
+                                                <span t-field="t.vaccine_data"/>
+                                            </strong>
+                                        </td>
+                                        <td style="width:20%;">
+                                            <strong>
+                                                <span t-field="t.vaccine_end"/>
+                                            </strong>
+                                        </td>
+                                        <td style="width:30%;">
+                                            <strong>
+                                                <span t-field="t.description"/>
+                                            </strong>
+                                        </td>
+                                        <td style="width:10%;text-align:right;">
+                                            <strong>
+                                                <span t-field="t.charges"/>
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </table>
+                        </t>
+                        <t t-if="doc.surgery_ids">
+                            <h5 style="border-bottom:1px solid black;padding-bottom:10px;padding-top:10px;">
+                                ➤ Surgery
+                            </h5>
+                            <table class="table table-borderless">
+                                <tr style="background-color:#e9ecef;">
+                                    <td style="width:20%;">
+                                        Ref.
+                                    </td>
+                                    <td style="width:30%;">
+                                        Surgery
+                                    </td>
+                                    <td style="width:20%;">
+                                        Schedule Date
+                                    </td>
+                                    <td style="width:20%;">
+                                        Doctor
+                                    </td>
+                                    <td style="width:10%;text-align:right;">
+                                        Charges
+                                    </td>
+                                </tr>
+                                <t t-foreach="doc.surgery_ids" t-as="t">
+                                    <tr style="border-bottom: 1px solid #cdc2c2;">
+                                        <td style="width:20%;">
+                                            <strong>
+                                                <span t-field="t.surgery_code"/>
+                                            </strong>
+                                        </td>
+                                        <td style="width:30%;">
+                                            <strong>
+                                                <span t-field="t.surgery_id"/>(
+                                                <span t-field="t.surgery_type"/>)
+                                            </strong>
+                                        </td>
+                                        <td style="width:20%;">
+                                            <strong>
+                                                <span t-field="t.schedule_date"/>
+                                            </strong>
+                                        </td>
+                                        <td style="width:20%;">
+                                            <strong>
+                                                <span t-field="t.doctor_id"/>
+                                            </strong>
+                                        </td>
+                                        <td style="width:10%;text-align:right;">
+                                            <strong>
+                                                <span t-field="t.surgery_charge"/>
+                                            </strong>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </table>
+                        </t>
+                        <p style="page-break-after:always;"/>
+                        <h5 style="border-bottom:1px solid black;padding-bottom:10px;padding-top:10px;">
+                            ➤ Medical Bill
+                        </h5>
+                        <table class="table table-borderless">
+                            <tr style="background-color:#e9ecef;">
+                                <td style="width:20%;">
+                                    Invoice For
+                                </td>
+                                <td style="width:10%;">
+                                    Date
+                                </td>
+                                <td style="width:40%;">
+                                    Description
+                                </td>
+                                <td style="width:10%;text-align:right;">
+                                    Amount
+                                </td>
+                                <td style="width:20%;">
+                                    Invoice Ref.
+                                </td>
+                            </tr>
+                            <t t-foreach="doc.case_invoice_ids" t-as="t">
+                                <tr style="border-bottom: 1px solid #cdc2c2;">
+                                    <td style="width:20%;">
+                                        <strong>
+                                            <span t-field="t.name"/>
+                                        </strong>
+                                    </td>
+                                    <td style="width:10%;">
+                                        <strong>
+                                            <span t-field="t.date"/>
+                                        </strong>
+                                    </td>
+                                    <td style="width:40%;">
+                                        <strong>
+                                            <span t-field="t.desc"/>
+                                        </strong>
+                                    </td>
+                                    <td style="width:10%;text-align:right;">
+                                        <strong>
+                                            <span t-field="t.amount"/>
+                                        </strong>
+                                    </td>
+                                    <td style="width:20%;">
+                                        <strong>
+                                            <span t-field="t.invoice_id.name"/>
+                                        </strong>
+                                    </td>
+                                </tr>
+                            </t>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+    <record id="patient_qweb_report_template" model="ir.actions.report">
+        <field name="name">Case Details</field>
+        <field name="model">patient.case</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">tk_veterinary_management.patient_case_qweb_report_template</field>
+        <field name="report_file">tk_veterinary_management.patient_case_qweb_report_template</field>
+        <field name="binding_model_id" ref="model_patient_case"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Case Details'</field>
+    </record>
+</odoo>

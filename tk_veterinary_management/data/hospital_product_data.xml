@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="1">
+        <record id="product_category_hospital" model="product.category">
+            <field name="parent_id" ref="product.product_category_all"/>
+            <field name="name">Medical</field>
+        </record>
+        <record id="consultancy_product_1" model="product.product">
+            <field name="name">Consultancy</field>
+            <field name="type">service</field>
+            <field name="categ_id" ref="tk_veterinary_management.product_category_hospital"/>
+        </record>
+        <record id="report_product_1" model="product.product">
+            <field name="name">Report</field>
+            <field name="type">service</field>
+            <field name="categ_id" ref="tk_veterinary_management.product_category_hospital"/>
+        </record>
+        <record id="surgery_product_1" model="product.product">
+            <field name="name">Surgery</field>
+            <field name="type">service</field>
+            <field name="categ_id" ref="tk_veterinary_management.product_category_hospital"/>
+        </record>
+        <record id="treatment_product_1" model="product.product">
+            <field name="name">Treatment</field>
+            <field name="type">service</field>
+            <field name="categ_id" ref="tk_veterinary_management.product_category_hospital"/>
+        </record>
+        <record id="vaccination_product_1" model="product.product">
+            <field name="name">Vaccination</field>
+            <field name="type">service</field>
+            <field name="categ_id" ref="tk_veterinary_management.product_category_hospital"/>
+        </record>
+        <record id="admit_product_1" model="product.product">
+            <field name="name">Admit</field>
+            <field name="type">service</field>
+            <field name="categ_id" ref="tk_veterinary_management.product_category_hospital"/>
+        </record>
+        <record id="grooming_product_1" model="product.product">
+            <field name="name">Grooming</field>
+            <field name="type">service</field>
+            <field name="categ_id" ref="tk_veterinary_management.product_category_hospital"/>
+        </record>
+        <record id="training_product_1" model="product.product">
+            <field name="name">Training</field>
+            <field name="type">service</field>
+            <field name="categ_id" ref="tk_veterinary_management.product_category_hospital"/>
+        </record>
+    </data>
+</odoo>

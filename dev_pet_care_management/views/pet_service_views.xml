@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+<!--    <record model="ir.ui.view" id="view_repair_requst_kanban">-->
+<!--            <field name="name">dev.repair.request.kanban</field>-->
+<!--            <field name="model">dev.repair.request</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <kanban class="o_kanban_mobile" sample="1">-->
+<!--                    <field name="name"/>-->
+<!--                    <field name="desc"/>-->
+<!--                    <field name="customer_id"/>-->
+<!--                    <field name="request_date"/>-->
+<!--                    <field name="state"/>-->
+<!--                    <field name="activity_state"/>-->
+<!--                    <field name="priority"/>-->
+<!--                    <progressbar field="activity_state" colors='{"planned": "success", "today": "warning", "overdue": "danger"}'/>-->
+<!--                    <templates>-->
+<!--                        <t t-name="kanban-box">-->
+<!--                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">-->
+<!--                                <div class="o_kanban_record_top mb16">-->
+<!--                                    <div class="o_kanban_record_headings mt4">-->
+<!--                                        <strong class="o_kanban_record_title"><span><t t-esc="record.customer_id.value"/></span></strong>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="o_kanban_record_bottom">-->
+<!--                                    <div class="oe_kanban_bottom_left">-->
+<!--                                        <span><t t-esc="record.desc.value"/> </span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="o_kanban_record_bottom">-->
+<!--                                    <div class="oe_kanban_bottom_left">-->
+<!--                                        <field name="priority" widget="priority"/>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="o_kanban_record_bottom">-->
+<!--                                    <div class="oe_kanban_bottom_left text-muted">-->
+<!--                                        <span><t t-esc="record.name.value"/> <t t-esc="record.request_date.value"/></span>-->
+<!--                                        <field name="activity_ids" widget="kanban_activity"/>-->
+<!--                                    </div>-->
+<!--                                    <div class="oe_kanban_bottom_right">-->
+<!--                                        <field name="state" widget="label_selection" options="{'classes': {'draft': 'default', 'cancel': 'danger', 'in_progress': 'success', 'done': 'success'}}"/>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </t>-->
+<!--                    </templates>-->
+<!--                </kanban>-->
+<!--            </field>-->
+<!--        </record>-->
+        
+        
+    <!--field-->
+    <record id="view_dev_pet_service_form" model="ir.ui.view">
+        <field name="name">view.dev.pet.service.form</field>
+        <field name="model">dev.pet.service</field>
+        <field name="arch" type="xml">
+            <form string="Pet Service">
+                <header>
+                    <button name="action_confirm" type="object" string='Confirm' class="oe_highlight" states="draft"/>
+                    <button name="create_customer_invoice" string="Create Invoice" 
+                            type="object" attrs="{'invisible':['|',('state','!=','confirm'),('invoice_count','!=',0)]}" 
+                            class="oe_highlight"/>
+                    <button name="service_send_by_mail" string='Send By Email' 
+                            type="object" class="oe_highlight" states="draft,confirm"/>
+                    <button name="action_done" string='Done' type="object" states='confirm' class="oe_highlight"/>
+                    <button name="action_cancel" string='Cancel' type="object" states="draft,confirm"/>
+                    <button name="action_draft" string='Set to Draft' type="object" states="cancel"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,in,out,done"/>
+                </header>
+                <sheet>
+                     <div class="oe_button_box" name="button_box">
+                        <button type="object" attrs="{'invisible':[('invoice_count','=',0)]}" 
+                            name="action_view_invoice" class="oe_stat_button" icon="fa-usd">
+                             <field name="invoice_count" widget="statinfo" string="Invoice"/>
+                        </button>
+                        
+                     </div>
+                     <div class="oe_title">
+                        <h2 class="o_row">
+                            <field name="name" readonly="1"/>
+                        </h2>
+                     </div>
+                    <group>
+                        <group>
+                            <field name="partner_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="mobile" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="email" attrs="{'readonly':[('state','!=','draft')]}"/>
+                        </group>
+                        <group>
+                            <field name="date" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="company_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="user_id"  required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string='Pet Services'>
+                            <field name="service_lines" attrs="{'readonly':[('state','!=','draft')]}">
+                                <tree editable="bottom">
+                                    <field name="pet_id"/>
+                                    <field name="type_id"/>
+                                    <field name="service_ids" widget="many2many_tags" 
+                                           domain="[('is_pet_service','=',True)]" 
+                                           options="{'no_quick_create':True,'no_create_edit':True,'no_open': True,}"/>
+                                    <field name="price"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="pet_id"/>
+                                            <field name="type_id"/>
+                                        </group>
+                                        <group>
+                                            <field name="service_ids" widget="many2many_tags"/>
+                                            <field name="price"/>
+                                        </group>
+                                    </group>
+                                
+                                </form>
+                            </field>
+                            <group name="note_group" col="6" class="mt-2 mt-md-0">
+                                <group colspan="4">
+                                    <field name="notes" nolabel="1" placeholder="Notes..." 
+                                           attrs="{'readonly':[('state','!=','draft')]}"/>
+                                </group>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                    <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                        <label for="total_amount"/>
+                                    </div>
+                                    <field name="total_amount" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                </group>
+                                <div class="oe_clear"/>
+                            </group>
+                            
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    
+    <!--tree-->
+    <record id="view_dev_pet_service_tree" model="ir.ui.view">
+        <field name="name">view.dev.pet.service.tree</field>
+        <field name="model">dev.pet.service</field>
+        <field name="arch" type="xml">
+            <tree string="Pet Service">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="mobile"/>
+                <field name="company_id" optional="hide"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="state" decoration-success="state == 'confirm' or state == 'done'" decoration-info="state == 'draft'" decoration-danger="state == 'cancel'" widget="badge" optional="show"/>
+
+            </tree>
+        </field>
+    </record>
+    
+    
+    <record id="view_dev_pet_service_activity" model="ir.ui.view">
+        <field name="name">view.dev.pet.service.activity</field>
+        <field name="model">dev.pet.service</field>
+        <field name="arch" type="xml">
+            <activity string="Pet Service">
+              <field name="user_id"/>
+                <templates>
+                    <div t-name="activity-box">
+                        <img t-att-src="activity_image('res.users', 'image_128', record.user_id.raw_value)" t-att-title="record.user_id.value" t-att-alt="record.user_id.value"/>
+                            <div>
+                                <field name="name" display="full"/>
+                                <b><field name="partner_id"/></b>
+                            </div>
+                    </div>
+                </templates>
+            </activity>
+        </field>
+    </record>
+    
+    <record id="view_dev_pet_service_filter" model="ir.ui.view">
+            <field name="name">view.dev.pet.service.filter</field>
+            <field name="model">dev.pet.service</field>
+            <field name="priority" eval="15"/>
+            <field name="arch" type="xml">
+                <search string="Search Pet Service">
+                    <field name="name" string="Service" filter_domain="[('name', 'ilike', self)]"/>
+                    <separator/>
+                    <filter string='confirm' name='confirm' domain="[('state','=','confirm')]"/>
+                    <filter string='done' name='Done' domain="[('state','=','done')]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Client" name="partner_id" domain="[]" context="{'group_by': 'partner_id'}"/>
+                        <filter string="State" name="state" domain="[]" context="{'group_by': 'state'}"/>
+                        <filter string="Company" name="company_id" domain="[]" context="{'group_by': 'company_id'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
+    <record id="action_dev_service" model="ir.actions.act_window">
+        <field name="name">Book Pet Service</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">dev.pet.service</field>
+        <field name="view_mode">tree,form,activity</field>
+        <field name="search_view_id" ref="view_dev_pet_service_filter"/>
+    </record>
+
+              
+    <menuitem name="Book Pet Service"
+              id="menu_dev_pet_service"
+              parent="menu_dev_pet_boarding_service_main"
+              action="action_dev_service"
+              sequence="2"/>
+              
+    
+</odoo>

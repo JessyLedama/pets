@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="vaccination_details_form_view" model="ir.ui.view">
+            <field name="name">vaccination.details.form.view</field>
+            <field name="model">hospital.vaccination.details</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group string="Animal Details">
+                            <group>
+                                <field name="patient_id" string="Animal Number"/>
+                            </group>
+                            <group>
+                                <field name="patient_name" string="Animal Name"/>
+                            </group>
+                        </group>
+                        <group string="Vaccination Details">
+                            <group>
+                                <field name="vaccination_name"/>
+                                <field name="description"/>
+                            </group>
+                            <group>
+                                <field name="vaccine_data"/>
+                                <field name="vaccine_end" string="Effective Up to."/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="vaccination_details_tree_view" model="ir.ui.view">
+            <field name="name">vaccination.details.tree.view</field>
+            <field name="model">hospital.vaccination.details</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="vaccination_name"/>
+                    <field name="vaccine_data"/>
+                    <field name="vaccine_end" string="Expiry Date"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+        <record id="vaccination_details_action" model="ir.actions.act_window">
+            <field name="name">Vaccination Details</field>
+            <field name="res_model">hospital.vaccination.details</field>
+            <field name="view_mode">tree,form,activity</field>
+        </record>
+    </data>
+</odoo>

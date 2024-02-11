@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="medical_report_form_view" model="ir.ui.view">
+            <field name="name">medical.report.form.view</field>
+            <field name="model">medical.report</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="e.g.Medical Report Name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                            </group>
+                            <group>
+                                <field name="price"/>
+                                <field name="company_id" invisible="1"/>
+                                <field name="currency_id" invisible="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="medical_report_tree_view" model="ir.ui.view">
+            <field name="name">medical.report.tree.view</field>
+            <field name="model">medical.report</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                    <field name="price"/>
+                    <field name="company_id" invisible="1"/>
+                    <field name="currency_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        <record id="medical_report_action" model="ir.actions.act_window">
+            <field name="name">Medical Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">medical.report</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

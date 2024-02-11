@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="appointment_details_wizard_form_view" model="ir.ui.view">
+            <field name="name">appointment.details.wizard.form.view</field>
+            <field name="model">appointment.details.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="appointment_type" widget="radio" options="{'horizontal': True}"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="start_date"/>
+                        </group>
+                        <group>
+                            <field name="end_date"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button string="Print" type="object" name="action_details"/>
+                        <button string="Cancel" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <record id="appointment_details_wizard_action" model="ir.actions.act_window">
+            <field name="name">Appointment Details</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">appointment.details.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

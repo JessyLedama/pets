@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="patient_report_form_view" model="ir.ui.view">
+            <field name="name">patient.report.form.view</field>
+            <field name="model">patient.report</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="stages" widget="statusbar"
+                            statusbar_visible="draft,in_progress,complete" />
+                        <button string="In Progress" name="draft_to_in_progress" type="object"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('stages', 'not in', ['draft'])]}" />
+                        <button string="Create Invoice" name="action_create_invoice" type="object"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('stages', 'not in', ['in_progress'])]}" />
+                        <button string="Cancel" name="complete_to_cancel" type="object"
+                            class="btn btn-danger"
+                            attrs="{'invisible': [('stages', 'not in', ['draft'])]}" />
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="case_id" options="{'no_create': True}"
+                                    attrs="{'readonly':[('stages', '!=', 'draft')]}" />
+                                <field name="report_id" options="{'no_create': True}"
+                                    attrs="{'readonly':[('stages', '!=', 'draft')]}" />
+                                <field name="currency_id" invisible="1" />
+                                <field name="price" widge="monetary" />
+                            </group>
+                            <group>
+                                <field name="date" attrs="{'readonly':[('stages', '!=', 'draft')]}" />
+                                <field name="lab_tech_ids" invisible="1" />
+                                <field name="lab_technician_id"
+                                    attrs="{'readonly':[('stages', '!=', 'draft')]}"
+                                    widget="many2one_avatar_user"
+                                    required="1" />
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="file_name" invisible="1" />
+                                <field name="document" filename="file_name" widget="binary"
+                                    attrs="{'required':[('stages','not in',['draft','cancel'])], 
+                                            'invisible': [('stages', '=', 'draft')], 
+                                            'readonly': [('stages', 'in', ['cancel', 'complete'])]}" />
+                            </group>
+                            <group>
+                                <field name="invoice_id" readonly="1" force_save="1"
+                                    attrs="{'invisible':[('invoice_id','=',False)]}" />
+                            </group>
+                        </group>
+                        <group string="Patient Details" name="patient_details"
+                            attrs="{'invisible':[('stages', '=', 'draft')]}">
+                            <group>
+                                <field name="name" />
+                                <field name="pet_type" options="{'no_open': True}" />
+                                <field name="breed" />
+                                <field name="gender" />
+                                <label for="age" class="mt-1" string="Age" />
+                                <div name="age">
+                                    <field name="age" class="oe_inline" />&#160;&#160;<field
+                                        name="age_type" nolabel="1" class="oe_inline" />
+                                </div>
+                            </group>
+                            <group>
+                                <field name="behaviour" />
+                                <field name="weight" />
+                                <field name="height" />
+                                <field name="blood_type" />
+                                <field name="rh" />
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" />
+                        <field name="activity_ids" />
+                        <field name="message_ids" />
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="patient_report_tree_view" model="ir.ui.view">
+            <field name="name">patient.report.tree.view</field>
+            <field name="model">patient.report</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="case_id" />
+                    <field name="report_id" />
+                    <field name="date" />
+                    <field name="lab_technician_id" widget="many2one_avatar_user" />
+                    <field name="stages" widget="badge"
+                        decoration-info="stages == 'draft'"
+                        decoration-warning="stages == 'in_progress'"
+                        decoration-success="stages == 'complete'"
+                        decoration-danger="stages == 'cancel'" />
+                </tree>
+            </field>
+        </record>
+        <record id="patient_report_search_view" model="ir.ui.view">
+            <field name="name">patient.report.search.view</field>
+            <field name="model">patient.report</field>
+            <field name="arch" type="xml">
+                <!-- <search>
+                    <field name="case_id"/>
+                    <field name="report_id"/>
+                    <group string="Group By">
+                        <filter string="report_id" name="Reports"
+                                context="{'group_by': 'report_id'}"/>
+                    </group>
+                </search> -->
+                <search>
+                    <field name="case_id" />
+                    <field name="report_id" />
+                    <field name="lab_technician_id" />
+                    <field name="date" />
+
+                    <filter name="date" string="Date" date="date" />
+                    <separator />
+                    <filter name="draft" string="New" domain="[('stages', '=', 'draft')]" />
+                    <filter name="in_progress" string="In Progress"
+                        domain="[('stages', '=', 'in_progress')]" />
+                    <filter name="complete" string="Complete" domain="[('stages', '=', 'complete')]" />
+                    <filter name="cancel" string="Cancel" domain="[('stages', '=', 'cancel')]" />
+
+
+                    <group string="Group By">
+                        <filter string="Reports" name="reports"
+                            context="{'group_by': 'report_id'}" />
+                        <separator />
+                        <filter string="Technician" name="technician"
+                            context="{'group_by': 'lab_technician_id'}" />
+                        <separator />
+                        <filter string="Stages" name="stages" context="{'group_by': 'stages'}" />
+                        <separator />
+                        <filter string="Patient" name="patient" context="{'group_by': 'case_id'}" />
+                        <separator />
+                        <filter string="Date" name="date" context="{'group_by': 'date'}" />
+                        <separator />
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="patient_report_action" model="ir.actions.act_window">
+            <field name="name">Animal Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">patient.report</field>
+            <field name="view_mode">tree,form,activity</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="grooming_type_form_view" model="ir.ui.view">
+            <field name="name">grooming.type.form.view</field>
+            <field name="model">grooming.type</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="charge"/>
+                            </group>
+                        </group>
+                    </sheet>
+                      <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="grooming_type_tree_view" model="ir.ui.view">
+            <field name="name">grooming.type.tree.view</field>
+            <field name="model">grooming.type</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                     <field name="currency_id" invisible="1"/>
+                     <field name="charge"/>
+                </tree>
+            </field>
+        </record>
+        <record id="grooming_type_action" model="ir.actions.act_window">
+            <field name="name">Grooming Types</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">grooming.type</field>
+            <field name="view_mode">tree,form,activity</field>
+        </record>
+    </data>
+</odoo>

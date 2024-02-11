@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+<!--    <record model="ir.ui.view" id="view_repair_requst_kanban">-->
+<!--            <field name="name">dev.repair.request.kanban</field>-->
+<!--            <field name="model">dev.repair.request</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <kanban class="o_kanban_mobile" sample="1">-->
+<!--                    <field name="name"/>-->
+<!--                    <field name="desc"/>-->
+<!--                    <field name="customer_id"/>-->
+<!--                    <field name="request_date"/>-->
+<!--                    <field name="state"/>-->
+<!--                    <field name="activity_state"/>-->
+<!--                    <field name="priority"/>-->
+<!--                    <progressbar field="activity_state" colors='{"planned": "success", "today": "warning", "overdue": "danger"}'/>-->
+<!--                    <templates>-->
+<!--                        <t t-name="kanban-box">-->
+<!--                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">-->
+<!--                                <div class="o_kanban_record_top mb16">-->
+<!--                                    <div class="o_kanban_record_headings mt4">-->
+<!--                                        <strong class="o_kanban_record_title"><span><t t-esc="record.customer_id.value"/></span></strong>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="o_kanban_record_bottom">-->
+<!--                                    <div class="oe_kanban_bottom_left">-->
+<!--                                        <span><t t-esc="record.desc.value"/> </span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="o_kanban_record_bottom">-->
+<!--                                    <div class="oe_kanban_bottom_left">-->
+<!--                                        <field name="priority" widget="priority"/>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="o_kanban_record_bottom">-->
+<!--                                    <div class="oe_kanban_bottom_left text-muted">-->
+<!--                                        <span><t t-esc="record.name.value"/> <t t-esc="record.request_date.value"/></span>-->
+<!--                                        <field name="activity_ids" widget="kanban_activity"/>-->
+<!--                                    </div>-->
+<!--                                    <div class="oe_kanban_bottom_right">-->
+<!--                                        <field name="state" widget="label_selection" options="{'classes': {'draft': 'default', 'cancel': 'danger', 'in_progress': 'success', 'done': 'success'}}"/>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </t>-->
+<!--                    </templates>-->
+<!--                </kanban>-->
+<!--            </field>-->
+<!--        </record>-->
+        
+        
+    <!--field-->
+    <record id="view_dev_pet_form" model="ir.ui.view">
+        <field name="name">view.dev.pet.form</field>
+        <field name="model">dev.pet</field>
+        <field name="arch" type="xml">
+            <form string="Pet">
+                <header>
+                </header>
+                <sheet>
+                     <div class="oe_button_box" name="button_box">
+                     </div>
+                     <field name="is_boarding" invisible="1"/>
+                     <widget name="web_ribbon" title="Boarding" bg_color="bg-danger" attrs="{'invisible': [('is_boarding', '!=', True)]}"/>
+                     <field name="image" widget="image" class="oe_avatar"/>
+                     <div class="oe_title">
+                        <h2 class="o_row">
+                            <field name="number" readonly="1"/>
+                        </h2>
+                         <br/>
+                         <field name="type" widget="radio" options="{'horizontal': true}"/>
+                     </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="pet_type"/>
+                            <field name="category_id"/>
+                            <field name="date_of_birth"/>
+                            <field name="age"/>
+                        </group>
+                        <group>
+                            <field name="owner_id"/>
+                            <field name="veterinarian_id" domain="[('is_veterinarian','=',True)]"
+                                   context="{'default_is_veterinarian':True}"/>
+                            <field name="register_date"/>
+                            <field name="sex"/>
+                            <field name="color"/>
+                            <field name="tags" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string='Medical History'>
+                            <field name="medical_lines">
+                                <tree editable="top">
+                                    <field name="question_id" required="1"/>
+                                    <field name="ans_id" required="1"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <group><field name="question_id"/></group>
+                                        <group><field name="ans_id"/></group>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page string='Vaccine History'>
+                            <field name="vaccine_lines">
+                                <tree editable="bottom">
+                                    <field name="vaccine_id"/>
+                                    <field name="date"/>
+                                    <field name="expire_date" required="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string='Other Info'>
+                            <group>
+                                <group>
+                                    <field name="user_id" required="1"/>
+                                </group>
+                                <group>
+                                    <field name="company_id" required="1"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    
+    <!--tree-->
+    <record id="view_dev_pet_tree" model="ir.ui.view">
+        <field name="name">view.dev.pet.tree</field>
+        <field name="model">dev.pet</field>
+        <field name="arch" type="xml">
+            <tree string="Pet">
+                <field name="number"/>
+                <field name="name"/>
+                <field name="type" string='Pet Type'/>
+                <field name="pet_type"/>
+                <field name="category_id"/>
+                <field name="date_of_birth"/>
+                <field name="age"/>
+                <field name="register_date"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record id="view_dev_pet_filter" model="ir.ui.view">
+            <field name="name">dev.pet.filter</field>
+            <field name="model">dev.pet</field>
+            <field name="priority" eval="15"/>
+            <field name="arch" type="xml">
+                <search string="Search Pet">
+                    <field name="name" string="Pet" filter_domain="['|', '|', ('name', 'ilike', self), ('number', 'ilike', self), ('owner_id', 'child_of', self)]"/>
+                    <field name="owner_id" operator="child_of"/>
+                    <separator/>
+                    <filter string='IN Boarding' name="is_boarding" domain="[('is_boarding','=',True)]"/>
+                    <filter string='OUT Boarding' name="is_out_boarding" domain="[('is_boarding','=',False)]"/>
+                    <filter string='Male' name='is_male' domain="[('sex','=','male')]"/>
+                    <filter string='Female' name='is_female' domain="[('sex','=','female')]"/>
+                    <filter string='Animal' name='is_animal' domain="[('type','=','animal')]"/>
+                    <filter string='Bird' name='is_bird' domain="[('type','=','bird')]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Owner" name="Owner" domain="[]" context="{'group_by': 'owner_id'}"/>
+                        <filter string="Pet Type" name="type" domain="[]" context="{'group_by': 'type'}"/>
+                        <filter string="Type" name="pet_type" domain="[]" context="{'group_by': 'pet_type'}"/>
+                        <filter string="Category" name="category_id" domain="[]" context="{'group_by': 'category_id'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
+    <record id="action_dev_machine_pet" model="ir.actions.act_window">
+        <field name="name">Pet</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">dev.pet</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_dev_pet_filter"/>
+    </record>
+
+              
+    <menuitem name="Pet"
+              id="menu_dev_pet_sub"
+              parent="menu_dev_pet_main"
+              action="action_dev_machine_pet"
+              sequence="1"/>
+              
+    
+</odoo>

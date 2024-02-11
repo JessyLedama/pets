@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_dev_pet_type_user,dev.pet.type.user,model_dev_pet_type,group_pet_user,1,1,1,1
+access_dev_pet_category_user,dev.pet.category.user,model_dev_pet_category,group_pet_user,1,1,1,1
+access_dev_pet_tags_user,dev.pet.tags.user,model_dev_pet_tags,group_pet_user,1,1,1,1
+access_dev_pet_user,dev.pet.user,model_dev_pet,group_pet_user,1,1,1,1
+access_dev_medical_question_user,dev.medical.question.user,model_dev_medical_question,group_pet_user,1,1,1,1
+access_dev_medical_ans_user,dev.medical.ans.user,model_dev_medical_ans,group_pet_user,1,1,1,1
+access_dev_pet_medical_history_user,dev.pet.medical.history.user,model_dev_pet_medical_history,group_pet_user,1,1,1,1
+access_dev_pet_vaccine_user,dev.pet.vaccine.user,model_dev_pet_vaccine,group_pet_user,1,1,1,1
+access_dev_pet_vaccine_history_user,dev.pet.vaccine.history.user,model_dev_pet_vaccine_history,group_pet_user,1,1,1,1
+access_dev_bording_type_user,dev.bording.type.user,model_dev_bording_type,group_pet_user,1,1,1,1
+access_dev_pet_boarding_user,dev.pet.boarding.user,model_dev_pet_boarding,group_pet_user,1,1,1,1
+access_dev_pet_service_user,dev.pet.service.user,model_dev_pet_service,group_pet_user,1,1,1,1
+access_pet_service_lines_user,pet.service.lines.user,model_pet_service_lines,group_pet_user,1,1,1,1

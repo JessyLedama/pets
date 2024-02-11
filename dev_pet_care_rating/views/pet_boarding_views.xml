@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--form-->
+    <record id="view_dev_pet_boarding_rating_form" model="ir.ui.view">
+        <field name="name">view.dev.pet.boarding.rating.form</field>
+        <field name="model">dev.pet.boarding</field>
+        <field name="inherit_id" ref="dev_pet_care_management.view_dev_pet_boarding_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header//button" position="after">
+                <button name="send_mail_for_rating" string='&#160;Send Rating Mail'
+                        type="object" class="oe_highlight" icon="fa-star"
+                        attrs="{'invisible':['|',('rating_text','!=',False),('state','!=','out')]}"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string='Rating' name="rating" 
+                      attrs="{'invisible':[('feedback_date','=',False)]}">
+                    <group>
+            	        <group>
+            	            <field name="feedback_rate"  widget="priority"/>
+            	            <field name="feedback_date"/>
+            	        </group>
+            	        <group>
+            	            <div colspan="2" class="text-center" name="rating_image_container">
+                                <field name="rating_image" widget="image"/>
+                                <div class="mt4">
+                                    <strong><field name="rating_text"/></strong>
+                                </div>
+                            </div>
+            	        </group>
+            	    </group>
+            	    <group string='Review'>
+            	        <field name="review" nolabel="1"/>
+            	    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

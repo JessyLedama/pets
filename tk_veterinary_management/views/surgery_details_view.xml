@@ -1,0 +1,46 @@
+<odoo>
+    <data>
+        <record id="surgery_details_form_view" model="ir.ui.view">
+            <field name="name">surgery.details.form.view</field>
+            <field name="model">surgery.details</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                            </group>
+                            <group>
+                                <field name="charge"/>
+                                <field name="company_id" invisible="1"/>
+                                <field name="currency_id" invisible="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="surgery_details_tree_view" model="ir.ui.view">
+            <field name="name">surgery.details.tree.view</field>
+            <field name="model">surgery.details</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="charge"/>
+                    <field name="company_id" invisible="1"/>
+                    <field name="currency_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        <record id="surgery_details_action" model="ir.actions.act_window">
+            <field name="name">Surgery Details</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">surgery.details</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="hospitalDashboard">
+        <section class="section vt_dashboard">
+            <div class="container active-dash">
+                <div class="row">
+                    <div class="col-md-12 align-items-stretch">
+                        <div class="row">
+                            <div class="col-md-12 mt32">
+                                <h4 class="tk-primary">Statistics</h4>
+                                <hr class="border-dash-primary"/>
+                            </div>
+                            <div class="col-md-2 mb-4 mt8 mb16 active-appointment-grooming">
+                                <div class="card info-bg p-32">
+                                    <div class="card-body info-bg tk-card-body">
+                                        <img alt="users" width="40"
+                                            src="tk_veterinary_management/static/src/img/grooming.svg" />
+                                        <h4 class="tk-st-1-edited">Grooming</h4>
+                                        <h6 class="tk-st-2" id="active_grooming"></h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 mb-4 mt8 mb16 active-appointment-procedure">
+                                <div class="card success-bg p-32">
+                                    <div class="card-body success-bg tk-card-body">
+                                        <img alt="users" width="40"
+                                            src="tk_veterinary_management/static/src/img/appointment.svg" />
+                                        <h4 class="tk-st-1-edited">Procedure</h4>
+                                        <h6 class="tk-st-2" id="active_procedure"></h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 mb-4 mt8 mb16 active-appointment-training">
+                                <div class="card danger-bg p-32">
+                                    <div class="card-body danger-bg tk-card-body">
+                                        <img alt="users" width="40"
+                                            src="tk_veterinary_management/static/src/img/training.svg" />
+                                        <h4 class="tk-st-1-edited">Training</h4>
+                                        <h6 class="tk-st-2" id="active_training"></h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 mb-4 mt8 mb16 action-doctors">
+                                <div class="card purple-bg p-32">
+                                    <div class="card-body purple-bg tk-card-body">
+                                        <img alt="users" width="40"
+                                            src="tk_veterinary_management/static/src/img/doctor.svg" />
+                                        <h4 class="tk-st-1-edited">Doctors</h4>
+                                        <h6 class="tk-st-2" id="doctor"></h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 mb-4 mt8 mb16 action-nurses">
+                                <div class="card active-bg p-32">
+                                    <div class="card-body active-bg tk-card-body">
+                                        <img alt="users" width="40"
+                                            src="tk_veterinary_management/static/src/img/nurse.svg" />
+                                        <h4 class="tk-st-1-edited">Nurses</h4>
+                                        <h6 class="tk-st-2" id="nurse"></h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 mb-4 mt8 mb16 active-surgery">
+                                <div class="card warn-bg p-32">
+                                    <div class="card-body warn-bg tk-card-body">
+                                        <img alt="users" width="40"
+                                            src="tk_veterinary_management/static/src/img/pet_surgery.svg" />
+                                        <h4 class="tk-st-1-edited">Surgeries</h4>
+                                        <h6 class="tk-st-2" id="surgery"></h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 align-items-stretch">
+                        <div class="row">
+                            <div class="col-md-12 mt32">
+                                <h4 class="tk-primary">Today's Statistics</h4>
+                                <hr class="border-dash-primary"/>
+                            </div>
+                            <div class="col-md-2 mb-4 mt8 mb16 today-appointment-grooming">
+                                <div class="card warn-bg p-32">
+                                    <div class="card-body warn-bg tk-card-body">
+                                        <img alt="users" width="40"
+                                            src="tk_veterinary_management/static/src/img/grooming.svg" />
+                                        <h4 class="tk-st-1-edited">Grooming</h4>
+                                        <h6 class="tk-st-2" id="today_grooming_count"></h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 mb-4 mt8 mb16 today-appointment-procedure">
+                                <div class="card active-bg p-32">
+                                    <div class="card-body active-bg tk-card-body">
+                                        <img alt="users" width="40"
+                                            src="tk_veterinary_management/static/src/img/appointment.svg" />
+                                        <h4 class="tk-st-1-edited">Procedure</h4>
+                                        <h6 class="tk-st-2" id="today_procedure_count"></h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 mb-4 mt8 mb16 today-appointment-training">
+                                <div class="card purple-bg p-32">
+                                    <div class="card-body purple-bg tk-card-body">
+                                        <img alt="users" width="40"
+                                            src="tk_veterinary_management/static/src/img/training.svg" />
+                                        <h4 class="tk-st-1-edited">Training</h4>
+                                        <h6 class="tk-st-2" id="today_training_count"></h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 mb-4 mt8 mb16 active-doctors">
+                                <div class="card danger-bg p-32">
+                                    <div class="card-body danger-bg tk-card-body">
+                                        <img alt="users" width="40"
+                                            src="tk_veterinary_management/static/src/img/doctor.svg" />
+                                        <h4 class="tk-st-1-edited">Doctors</h4>
+                                        <h6 class="tk-st-2" id="doctor_day"></h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 mb-4 mt8 mb16 active-nurses">
+                                <div class="card success-bg p-32">
+                                    <div class="card-body success-bg tk-card-body">
+                                        <img alt="users" width="40"
+                                            src="tk_veterinary_management/static/src/img/doctor.svg" />
+                                        <h4 class="tk-st-1-edited">Nurses</h4>
+                                        <h6 class="tk-st-2" id="nurse_day"></h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 mb-4 mt8 mb16 today-surgeries">
+                                <div class="card info-bg p-32">
+                                    <div class="card-body info-bg tk-card-body">
+                                        <img alt="users" width="40"
+                                            src="tk_veterinary_management/static/src/img/pet_surgery.svg" />
+                                        <h4 class="tk-st-1-edited">Surgeries</h4>
+                                        <h6 class="tk-st-2" id="today_surgery_count"></h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container active-dash">
+                <div class="row mt32">
+                    <div class="col-md-8">
+                        <h5 class="mb16 text-center">Monthly Appointment</h5>
+                        <div class="tk-os-chart" id="hospital_appointment_monthly">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <h5 class="mb16 text-center">Top 5 Grooming Products</h5>
+                        <div class="tk-os-chart" id="grooming_product">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <h5 class="mb16 text-center">Date wise Appointment</h5>
+                        <div class="tk-os-chart" id="hospital_appointment_date">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <h5 class="mb16 text-center">Top 5 Medicines</h5>
+                        <div class="tk-os-chart" id="top_medicine">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5 class="mb16 text-center">Invoice Details Month wise </h5>
+                        <div class="tk-os-chart" id="payment_month">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </section>
+    </t>
+</templates>

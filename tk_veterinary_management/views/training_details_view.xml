@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="training_details_form_view" model="ir.ui.view">
+            <field name="name">training.details.form.view</field>
+            <field name="model">training.details</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar" nolabel="1" />
+                        <field name="invoice_id" invisible="1" />
+                        <button name="action_confirm_appointment" type="object"
+                            string="Confirm Appointment"
+                            class="btn btn-primary" attrs="{'invisible':[('state','!=','draft')]}" />
+                        <button name="action_cancel_appointment" type="object" string="Cancel"
+                            class="btn btn-danger"
+                            attrs="{'invisible':[('state','!=','draft')]}" />
+                        <button name="action_invoices" type="object" string="Create Invoice"
+                            class="oe_highlight"
+                            attrs="{'invisible':['|',('invoice_id','!=',False),'|',('state','!=','in_consultation'),('charges','=',0)]}" />
+                        <button name="action_complete_appointment" type="object"
+                            string="Complete Appointment"
+                            attrs="{'invisible':['|', ('is_invoice_created', '=', False), ('state', '!=', 'in_consultation')]}"
+                            class="oe_highlight" />
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="training_no" />
+                            </h1>
+                        </div>
+                        <group string="Appointment Details">
+                            <group>
+                                <field name="appointment_date" required="1"
+                                    attrs="{'readonly':[('state', '!=', 'draft')]}" />
+                                <field name="training_emp_ids" invisible="1" />
+                                <field name="training_employee_id" widget="many2one_avatar_user"
+                                    required="1" attrs="{'readonly':[('state', '!=', 'draft')]}" />
+                            </group>
+                            <group>
+                                <field name="patient_id" required="1"
+                                    attrs="{'readonly':[('state', '!=', 'draft')]}" />
+                                <field name="bird_type" required="1" />
+                                <field name="bird" required="1" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="package_details" string="Training Package"
+                                attrs="{'invisible':[('state','in',['draft', 'cancel'])]}">
+                                <group>
+                                    <group string="Training Package Details">
+                                        <field name="certificate_no"
+                                            attrs="{'required':[('state','=','in_consultation')], 'readonly':[('state', 'in', ['complete', 'cancel'])]}" />
+                                        <field name="package_id"
+                                            attrs="{'required':[('state','=','in_consultation')], 'readonly':[('state', 'in', ['complete', 'cancel'])]}" />
+                                        <field name="package_days" />
+                                        <field name="charges" />
+                                        <field name="is_invoice_created" invisible="1" />
+                                        <field name="invoice_id"
+                                            attrs="{'invisible':[('invoice_id','=',False)]}"
+                                            readonly="1" />
+                                        <field name="company_id" invisible="1" />
+                                        <field name="currency_id" invisible="1" />
+                                    </group>
+                                    <group string="Training Durations">
+                                        <label for="start_date" string="Start Date" />
+                                        <div class="address_format">
+                                            <field name="start_date"
+                                                attrs="{'required':[('state','=','in_consultation')], 'readonly':[('state', 'in', ['complete', 'cancel'])]}"
+                                                style="width: 30%" />
+                                            <strong>&#160;&#160;End Date&#160;&#160;</strong>
+                                            <field name="end_date"
+                                                attrs="{'required':[('state','=','in_consultation')], 'readonly':[('state', 'in', ['complete', 'cancel'])]}"
+                                                style="width: 30%" />
+                                        </div>
+                                    </group>
+                                </group>
+                                <div class="row">
+                                    <div class="col-12" style="text-align: right;">
+                                        <field name="signature" widget="signature"
+                                            style="width: 20.2rem;" nolabel="1" attrs="{'readonly':[('state', 'in', ['complete', 'cancel'])]}"/>
+                                        <br />
+                                        <strong style="margin-right: 82px;">
+                                            Signature
+                                        </strong>
+                                    </div>
+                                </div>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" />
+                        <field name="activity_ids" />
+                        <field name="message_ids" />
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="training_search_view" model="ir.ui.view">
+            <field name="name">training.search.view</field>
+            <field name="model">training.details</field>
+            <field name="arch" type="xml">
+                <!-- <search>
+                    <field name="training_no" />
+                    <field name="package_id" />
+                    <group string="Group By" expand="0">
+                        <filter string="State" name="state" context="{'group_by':'state'}" />
+                    </group>
+                </search> -->
+                <search>
+                    <field name="training_no" />
+                    <field name="package_id" />
+                    <field name="appointment_date" />
+                    <field name="training_employee_id" />
+                    <field name="charges" />
+
+                    <filter name="state" string="Draft" domain="[('state', '=', 'draft')]" />
+                    <filter name="state" string="In Progress"
+                        domain="[('state', '=', 'in_consultation')]" />
+                    <filter name="state" string="Completed" domain="[('state', '=', 'complete')]" />
+                    <filter name="state" string="Cancelled" domain="[('state', '=', 'cancel')]" />
+                    <separator />
+                    <filter name="appointment_date" string="Appointment Date"
+                        date="appointment_date" />
+
+                    <group string="Group By" expand="0">
+                        <filter string="Appointment Date" name="appointment_date"
+                            context="{'group_by':'appointment_date'}" />
+                        <separator />
+                        <filter string="State" name="state" context="{'group_by':'state'}" />
+                        <separator />
+                        <filter string="Package" name="package_id"
+                            context="{'group_by':'package_id'}" />
+                        <separator />
+                        <filter string="Training Employee" name="training_employee_id"
+                            context="{'group_by':'training_employee_id'}" />
+                        <separator />
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="training_details_tree_view" model="ir.ui.view">
+            <field name="name">training.details.tree.view</field>
+            <field name="model">training.details</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="training_no" />
+                    <field name="appointment_date" />
+                    <field name="package_id" />
+                    <field name="charges" />
+                    <field name="currency_id" invisible="1" />
+                    <field name="training_employee_id" widget="many2one_avatar_user" />
+                    <field name="state" widget="badge"
+                        decoration-warning="state == 'in_consultation'"
+                        decoration-success="state == 'complete'"
+                        decoration-danger="state == 'cancel'" />
+                </tree>
+            </field>
+        </record>
+        <record id="training_details_action" model="ir.actions.act_window">
+            <field name="name">Training Details</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">training.details</field>
+            <field name="view_mode">tree,form,activity</field>
+        </record>
+    </data>
+</odoo>

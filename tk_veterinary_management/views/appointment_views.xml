@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="hospital_appointment_form_view" model="ir.ui.view">
+            <field name="name">hospital.appointment.form.view</field>
+            <field name="model">hospital.appointment</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="case_id" invisible="1"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                        <button name="confirm_appointment" type="object" attrs="{'invisible':[('state','!=','draft')]}"
+                                string="Confirm Appointment"/>
+                        <button string="Cancel" name="done_to_cancel" type="object" class="oe_highlight"
+                                attrs="{'invisible':[('state','!=','draft')]}"/>
+                        <button name="action_create_case" type="object" string="Create Procedures Case"
+                                class="btn btn-primary"
+                                attrs="{'invisible':['|',('service_type', '!=', 'Procedures'),'|',('state', '!=', 'in_consultation'), ('case_id', '!=', False)]}"/>
+<!--                        <button string="Done" name="in_consultation_to_done" type="object" class="oe_highlight"-->
+<!--                                attrs="{'invisible': ['|', ('state', 'not in', ['in_consultation']), ('service_type', '=', 'Procedures')]}"/>-->
+
+                    </header>
+                    <sheet>
+                        <group string="Appointment Details">
+                            <group>
+                                <field name="patient_id"/>
+                                <field name="patient_name"/>
+                            </group>
+                            <group>
+                                <field name="service_type"/>
+                                <field name="appointment_time"/>
+                                <field name="doctor_id"
+                                       attrs="{'invisible': [('service_type', 'not in', ['Procedures'])]}"/>
+                                <field name="case_id" attrs="{'invisible':[('case_id', '=', False)]}" readonly="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="cancellation_reason" string="Cancellation Reasons"
+                                  attrs="{'invisible': [('state', '!=', 'cancel')]}">
+                                <field name="cancellation_reason" nolabel="1"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="hospital_appointment_search_view" model="ir.ui.view">
+            <field name="name">hospital.appointment.search.view</field>
+            <field name="model">hospital.appointment</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="patient_id"/>
+                    <field name="appointment_time"/>
+                    <field name="case_id"/>
+                    <field name="service_type"/>
+                    <group string="Group By">
+                        <filter string="Status" name="state"
+                                context="{'group_by': 'state'}"/>
+                        <filter string="Doctor" name="doctor_id"
+                                context="{'group_by': 'doctor_id'}"/>
+                        <filter string="Service Type" name="service_type"
+                                context="{'group_by': 'service_type'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="hospital_appointment_tree_view" model="ir.ui.view">
+            <field name="name">hospital.appointment.tree.view</field>
+            <field name="model">hospital.appointment</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="patient_id"/>
+                    <field name="service_type"/>
+                    <field name="appointment_time"/>
+                    <field name="state" widget="badge"
+                           decoration-warning="state=='in_consultation'"
+                           decoration-success="state=='done'"
+                           decoration-danger="state=='cancel'"/>
+                </tree>
+            </field>
+        </record>
+        <record id="hospital_appointment_calendar_view" model="ir.ui.view">
+            <field name="name">hospital.appointment.calendar.view</field>
+            <field name="model">hospital.appointment</field>
+            <field name="arch" type="xml">
+                <calendar date_start="appointment_time"
+                          mode="month" quick_add="False"
+                          hide_time="True"
+                          event_open_popup="True"
+                          color="doctor_id">
+                    <field name="state" filters="1"/>
+                </calendar>
+            </field>
+        </record>
+        <record id="hospital_appointment_action" model="ir.actions.act_window">
+            <field name="name">Procedures Appointment</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hospital.appointment</field>
+            <field name="view_mode">tree,form,calendar,activity,search</field>
+            <field name="domain">[('service_type','=','Procedures')]</field>
+            <field name="context">{'default_service_type':'Procedures'}</field>
+        </record>
+        <record id="hospital_grooming_appointment_action" model="ir.actions.act_window">
+            <field name="name">Grooming Appointment</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hospital.appointment</field>
+            <field name="view_mode">tree,form,calendar,activity,search</field>
+            <field name="domain">[('service_type','=','Grooming')]</field>
+            <field name="context">{'default_service_type':'Grooming'}</field>
+        </record>
+        <record id="hospital_training_appointment_action" model="ir.actions.act_window">
+            <field name="name">Training Appointment</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hospital.appointment</field>
+            <field name="view_mode">tree,form,calendar,activity,search</field>
+            <field name="domain">[('service_type','=','Training')]</field>
+            <field name="context">{'default_service_type':'Training'}</field>
+        </record>
+    </data>
+</odoo>

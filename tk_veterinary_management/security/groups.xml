@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="module_veterinary_management" model="ir.module.category">
+            <field name="name">Veterinary</field>
+            <field name="description">Access rights for Veterinary Management</field>
+        </record>
+        <record id="veterinary_manager" model="res.groups">
+            <field name="name">Veterinary Admin</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="module_veterinary_management"/>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+        <record id="veterinary_receptionist" model="res.groups">
+            <field name="name">Receptionist</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="module_veterinary_management"/>
+        </record>
+        <record id="veterinary_lab_technician" model="res.groups">
+            <field name="name">Lab Technician</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="module_veterinary_management"/>
+        </record>
+        <record id="veterinary_doctor" model="res.groups">
+            <field name="name">Doctor</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="module_veterinary_management"/>
+        </record>
+        <record id="veterinary_nurse" model="res.groups">
+            <field name="name">Nurse</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="module_veterinary_management"/>
+        </record>
+        <record id="veterinary_grooming_employee" model="res.groups">
+            <field name="name">Grooming Employee</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="module_veterinary_management"/>
+        </record>
+        <record id="veterinary_training_employee" model="res.groups">
+            <field name="name">Training Employee</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="module_veterinary_management"/>
+        </record>
+        <record id="veterinary_pharmacist" model="res.groups">
+            <field name="name">Pharmacist</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="module_veterinary_management"/>
+        </record>
+        <record id="base.default_user" model="res.users">
+            <field name="groups_id" eval="[(4, ref('veterinary_manager'))]"/>
+        </record>
+    </data>
+</odoo>

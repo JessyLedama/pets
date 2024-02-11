@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="view_dev_pet_boarding_kanban" model="ir.ui.view">
+        <field name="name">kanban.dev.pet.boarding.view</field>
+        <field name="model">dev.pet.boarding</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_small_column o_opportunity_kanban" >
+               <field name="name"/>
+               <field name="color"/>
+               <field name="state"/>
+                 <templates>
+                   <t t-name="kanban-box">
+                    <div t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''} oe_kanban_global_click">
+                        <div class="oe_kanban_global_click o_kanban_card_content">
+							    <div class="o_dropdown_kanban dropdown">
+
+                                    <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown" data-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                        <span class="fa fa-ellipsis-v"/>
+                                    </a>
+                                    <div class="dropdown-menu" role="menu">
+                                        <t t-if="widget.editable"><a role="menuitem" type="edit" class="dropdown-item">Edit</a></t>
+                                        <t t-if="widget.deletable"><a role="menuitem" type="delete" class="dropdown-item">Delete</a></t>
+                                        <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                    </div>
+                                </div>
+                            <h4>
+                            	 <field name="name"/>
+                            </h4>
+                            <b>Customer : </b> <field name="partner_id"/><br/>
+                            <b>Mobile : </b> <field name="mobile"/>
+                            <div>
+                                <b>Boarding : </b><field name="from_date"/> To <field name="to_date"/>
+                            </div>
+                            <field name="currency_id" invisible="1"/>
+                            <b>Charge :</b> <field name="total_charge" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <h6>
+                                <field name="pet_ids" widget='many2many_tags'/>
+                            </h6>
+                            <div class="o_kanban_record_bottom">
+                                 <div class="oe_kanban_bottom_left">
+<!--                                     <field name="priority" widget="priority" groups="base.group_user"/>-->
+                                     <div class="o_kanban_inline_block">
+                                            <field name="activity_ids" widget="kanban_activity"/>
+                                        </div>
+                                 </div>
+                                 <div class="oe_kanban_bottom_right">
+                                     <field name="user_id" widget="many2one_avatar_user"/>
+                                 </div>
+                            </div>
+                         </div>
+                      </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+        
+        
+    <!--field-->
+    <record id="view_dev_pet_boarding_form" model="ir.ui.view">
+        <field name="name">view.dev.pet.boarding.form</field>
+        <field name="model">dev.pet.boarding</field>
+        <field name="arch" type="xml">
+            <form string="Pet Boarding">
+                <header>
+                    <button name="action_confirm" string='Confirm' type="object" class="oe_highlight" states='draft'/>
+                    <button name="create_customer_invoice" string="Create Invoice" type="object" 
+                            class="oe_highlight" attrs="{'invisible':['|',('invoice_count','!=',0),('state','!=','confirm')]}"/>
+                    <button name="action_in" string='IN' type="object" class="oe_highlight" states='confirm'/>
+                    <button name="action_out" string='OUT' type="object" class="oe_highlight" states="in"/>
+                    <button name="action_done" string='Done' type="object" class="oe_highlight" states='out'/>
+                    <button name="action_cancel" string='Cancel' type="object" states='draft,confirm'/>
+                    <button name="action_draft" string='Set to Draft' type="object" states='cancel'/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirm,in,out,done"/>
+                </header>
+                <sheet>
+                     <div class="oe_button_box" name="button_box">
+                        <button type="object" attrs="{'invisible':[('invoice_count','=',0)]}" 
+                            name="action_view_invoice" class="oe_stat_button" icon="fa-usd">
+                             <field name="invoice_count" widget="statinfo" string="Invoice"/>
+                        </button>
+                        
+                     </div>
+                     <div class="oe_title">
+                        <h2 class="o_row">
+                            <field name="name" readonly="1"/>
+                        </h2>
+                     </div>
+                    <group>
+                        <group>
+                            <field name="from_date" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="to_date" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="bording_type_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="charge" attrs="{'readonly':[('state','!=','draft')]}"/>
+                        </group>
+                        <group>
+                            <field name="days"/>
+                            <field name="total_charge"/>
+                            <field name="company_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="user_id" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="partner_id" attrs="{'readonly':[('state','!=','draft')]}"/>
+                        </group>
+                        <group>
+                            <field name="mobile" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            <field name="email" attrs="{'readonly':[('state','!=','draft')]}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string='Pets Boarding' name="pet_boarding">
+                            <field name="pet_ids" domain="[('is_boarding','=',False)]" options="{'no_open':True,'no_create':1,'no_create_edit':1}" attrs="{'readonly':[('state','!=','draft')]}">
+                                <tree>
+                                    <field name="number"/>
+                                    <field name="name"/>
+                                    <field name="type"/>
+                                    <field name="pet_type"/>
+                                    <field name="category_id"/>
+                                    <field name="age"/>
+                                    <field name="color"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    
+    <!--tree-->
+    <record id="view_dev_pet_boarding_tree" model="ir.ui.view">
+        <field name="name">view.dev.pet.boarding.tree</field>
+        <field name="model">dev.pet.boarding</field>
+        <field name="arch" type="xml">
+            <tree string="Pet Bording">
+                <field name="name"/>
+                <field name="from_date"/>
+                <field name="to_date" />
+                <field name="bording_type_id" optional="show"/>
+                <field name="charge" optional="show"/>
+                <field name="days" optional="show"/>
+                <field name="total_charge" optional="show"/>
+                <field name="company_id" optional="hide"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="state" decoration-success="state == 'confirm' or state == 'in' or state == 'out' or state == 'done'" decoration-info="state == 'draft'" decoration-danger="state == 'cancel'" widget="badge" optional="show"/>
+
+            </tree>
+        </field>
+    </record>
+    
+    <record id="view_dev_pet_boarding_activity" model="ir.ui.view">
+        <field name="name">view.dev.pet.boarding.activity</field>
+        <field name="model">dev.pet.boarding</field>
+        <field name="arch" type="xml">
+            <activity string="Pet Boarding">
+              <field name="user_id"/>
+                <templates>
+                    <div t-name="activity-box">
+                        <img t-att-src="activity_image('res.users', 'image_128', record.user_id.raw_value)" t-att-title="record.user_id.value" t-att-alt="record.user_id.value"/>
+                            <div>
+                                <field name="name" display="full"/>
+                                <b><field name="partner_id"/></b>
+                            </div>
+                    </div>
+                </templates>
+            </activity>
+        </field>
+    </record>
+    
+    <record id="view_dev_pet_boarding_calendar" model="ir.ui.view">   
+	    <field name="name">view.dev.pet.boarding.calendar</field>   
+	    <field name="model">dev.pet.boarding</field>   
+	    <field name="arch" type="xml">       
+		    <calendar string="Boarding"                 
+				      date_start="from_date"                 
+				      date_stop="to_date" 
+				      mode="month"              
+				      color="user_id"                 
+				      quick_add="True">           
+		    <field name="name"/>		
+		    <field name="user_id" avatar_field="image_128"/>
+		    <field name="state"/>  
+		    </calendar>   
+	    </field>
+	</record>
+    
+    <record id="view_dev_pet_boarding_filter" model="ir.ui.view">
+            <field name="name">view.dev.pet.boarding.filter</field>
+            <field name="model">dev.pet.boarding</field>
+            <field name="priority" eval="15"/>
+            <field name="arch" type="xml">
+                <search string="Search Pet Boarding">
+                    <field name="name" string="Boarding" filter_domain="[('name', 'ilike', self)]"/>
+                    <separator/>
+                    <filter string='IN' name='in' domain="[('state','=','in')]"/>
+                    <filter string='OUT' name='out' domain="[('state','=','out')]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Bording Type" name="bording_type_id" domain="[]" context="{'group_by': 'bording_type_id'}"/>
+                        <filter string="State" name="state" domain="[]" context="{'group_by': 'state'}"/>
+                        <filter string="Company" name="company_id" domain="[]" context="{'group_by': 'company_id'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+
+    <record id="action_dev_bording" model="ir.actions.act_window">
+        <field name="name">Boarding</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">dev.pet.boarding</field>
+        <field name="view_mode">kanban,tree,form,calendar,activity</field>
+        <field name="search_view_id" ref="view_dev_pet_boarding_filter"/>
+    </record>
+
+              
+    <menuitem name="Bording"
+              id="menu_dev_pet_boarding"
+              parent="menu_dev_pet_boarding_service_main"
+              action="action_dev_bording"
+              sequence="1"/>
+              
+    
+</odoo>

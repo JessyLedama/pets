@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="medicine_product_inherit_form_view" model="ir.ui.view">
+            <field name="name">patient.report.inherit.form.view</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//label[@for='purchase_ok']" position="after">
+                    <span class="d-inline-block">
+                        <field name="is_medicine"/>
+                        <label for="is_medicine"/>
+                    </span>
+                </xpath>
+                <xpath expr="//notebook/page[@name='purchase']" position="after">
+                    <page name="medicine" string="Medicine Details" attrs="{'invisible':[('is_medicine','=',False)]}">
+                        <group>
+                            <group>
+                                <field name="medicine_form"/>
+                            </group>
+                            <group>
+                                <field name="pack_size"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        <record id="medicine_product_action" model="ir.actions.act_window">
+            <field name="name">Medicine</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.template</field>
+            <field name="domain">[('is_medicine','=',True),('type','=','product')]</field>
+            <field name="context">{'default_is_medicine':True,'default_type':'product'}</field>
+            <field name="view_mode">tree,form,activity</field>
+        </record>
+    </data>
+</odoo>

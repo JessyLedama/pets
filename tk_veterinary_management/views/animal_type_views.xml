@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="animal_type_form_view" model="ir.ui.view">
+            <field name="name">animal.type.form.view</field>
+            <field name="model">animal.type</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="e.g.Animal Name"/>
+                            </h1>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="animal_type_tree_view" model="ir.ui.view">
+            <field name="name">animal.type.tree.view</field>
+            <field name="model">animal.type</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="animal_type_action" model="ir.actions.act_window">
+            <field name="name">Animal Types</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">animal.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

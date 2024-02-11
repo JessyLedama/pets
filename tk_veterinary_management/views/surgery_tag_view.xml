@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="surgery_tag_form_view" model="ir.ui.view">
+            <field name="name">surgery.tag.form.view</field>
+            <field name="model">surgeries.tag</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="tags"/>
+                            <h1>
+                                <field name="tags" placeholder="Title"/>
+                            </h1>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="surgery_tag_tree_view" model="ir.ui.view">
+            <field name="name">surgery.tag.tree.view</field>
+            <field name="model">surgeries.tag</field>
+            <field name="arch" type="xml">
+                <tree string="Tags">
+                    <field name="tags"/>
+                </tree>
+            </field>
+        </record>
+        <record id="surgery_tag_action" model="ir.actions.act_window">
+            <field name="name">Surgery Tag</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">surgeries.tag</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

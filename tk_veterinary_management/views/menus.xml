@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="main_menu_veterinary" name="Veterinary"
+        web_icon="tk_veterinary_management,static/description/icon.png"
+        groups="tk_veterinary_management.veterinary_manager,tk_veterinary_management.veterinary_receptionist,tk_veterinary_management.veterinary_lab_technician,tk_veterinary_management.veterinary_doctor,tk_veterinary_management.veterinary_nurse,tk_veterinary_management.veterinary_grooming_employee,tk_veterinary_management.veterinary_training_employee,tk_veterinary_management.veterinary_pharmacist" />
+
+    <!--     Statistics-->
+   <menuitem id="menu_hospital_dashboard"
+       name="Statistics"
+       action="action_hospital_dashboard"
+       parent="main_menu_veterinary"
+       groups="tk_veterinary_management.veterinary_manager,tk_veterinary_management.veterinary_receptionist"
+       sequence="0" />
+
+    <!-- Animals-->
+    <menuitem id="menu_hotel_patient"
+        name="Animals"
+        parent="main_menu_veterinary"
+        action="patient_action"
+        groups="tk_veterinary_management.veterinary_manager,tk_veterinary_management.veterinary_receptionist,tk_veterinary_management.veterinary_nurse,tk_veterinary_management.veterinary_doctor"
+        sequence="1" />
+
+    <!--Procedures-->
+    <menuitem id="menu_services"
+        name="Procedures"
+        parent="main_menu_veterinary" sequence="2"
+        groups="tk_veterinary_management.veterinary_manager,tk_veterinary_management.veterinary_receptionist,tk_veterinary_management.veterinary_nurse,tk_veterinary_management.veterinary_doctor" />
+    <menuitem id="menu_hospital_case"
+        name="Appointments/Cases"
+        parent="menu_services"
+        action="patient_case_action"
+        sequence="1" />
+    <menuitem id="menu_surgeries"
+        name="Surgeries"
+        parent="menu_services" sequence="3"
+        action="hospital_surgery_action" />
+
+    <!--Grooming-->
+    <menuitem id="menu_grooming" name="Grooming"
+        parent="main_menu_veterinary"
+        sequence="3"
+        groups="tk_veterinary_management.veterinary_manager,tk_veterinary_management.veterinary_receptionist,tk_veterinary_management.veterinary_grooming_employee" />
+    <menuitem id="menu_hospital_grooming_details"
+        name="Appointments"
+        parent="menu_grooming"
+        action="grooming_details_action"
+        sequence="1" />
+    <menuitem id="menu_hospital_grooming_product"
+        name="Products"
+        parent="menu_grooming"
+        action="grooming_product_action"
+        sequence="3" />
+
+    <!--Training-->
+    <menuitem id="menu_training"
+        name="Training"
+        parent="main_menu_veterinary" sequence="4"
+        groups="tk_veterinary_management.veterinary_manager,tk_veterinary_management.veterinary_receptionist,tk_veterinary_management.veterinary_training_employee" />
+    <menuitem id="menu_hospital_training_details"
+        name="Appointments"
+        parent="menu_training"
+        action="training_details_action"
+        sequence="1" />
+    <menuitem id="menu_hospital_training_type"
+        name="Packages"
+        parent="menu_training"
+        action="training_type_action"
+        sequence="2" />
+
+    <!-- Menu Staff -->
+    <menuitem id="menu_staff_doctor"
+        name="Doctors"
+        parent="main_menu_veterinary"
+        action="doctor_staff_action"
+        groups="tk_veterinary_management.veterinary_manager,tk_veterinary_management.veterinary_receptionist,tk_veterinary_management.veterinary_doctor"
+        sequence="5" />
+
+    <!--Prescriptions-->
+    <menuitem id="menu_pharmacy" name="Pharmacies" parent="main_menu_veterinary" sequence="6"
+        groups="tk_veterinary_management.veterinary_manager,tk_veterinary_management.veterinary_receptionist,tk_veterinary_management.veterinary_pharmacist,tk_veterinary_management.veterinary_doctor" />
+    <menuitem name="Prescription Orders"
+        id="menu_hospital_prescription"
+        parent="menu_pharmacy"
+        action="hospital_prescription_action"
+        sequence="1" />
+    <menuitem id="menu_medicine_product"
+        name="Medicines"
+        parent="menu_pharmacy"
+        action="medicine_product_action"
+        sequence="2" />
+
+    <!--Medical
+    Report-->
+    <menuitem id="menu_hospital_patient_report" name="Medical Reports" parent="main_menu_veterinary"
+        sequence="7"
+        action="patient_report_action"
+        groups="tk_veterinary_management.veterinary_manager,tk_veterinary_management.veterinary_receptionist,tk_veterinary_management.veterinary_lab_technician" />
+
+    <menuitem id="menu_hospital_staff"
+        name="Medical Staffs"
+        parent="main_menu_veterinary"
+        sequence="8"
+        groups="tk_veterinary_management.veterinary_manager,tk_veterinary_management.veterinary_receptionist,tk_veterinary_management.veterinary_doctor,tk_veterinary_management.veterinary_nurse" />
+    <menuitem id="menu_staff_nurse"
+        name="Nurses"
+        parent="menu_hospital_staff"
+        action="nurse_staff_action"
+        sequence="2" />
+    <menuitem id="menu_staff_employee"
+        name="Support Staffs"
+        parent="menu_hospital_staff"
+        action="employee_staff_action"
+        sequence="3" />
+
+    <!-- Excel - Report-->
+    <menuitem id="menu_hospital_report" name="Reports" parent="main_menu_veterinary" sequence="9"
+        action="appointment_details_wizard_action"
+        groups="tk_veterinary_management.veterinary_manager" />
+
+    <!--Maintenance-->
+    <menuitem name="Maintenances"
+        id="menu_hospital_maintenance"
+        parent="main_menu_veterinary"
+        action="hospital_maintenance_action"
+        groups="tk_veterinary_management.veterinary_manager,tk_veterinary_management.veterinary_receptionist"
+        sequence="10" />
+
+    <!--Configurations -->
+    <menuitem id="menu_hospital_configuration" name="Configurations" parent="main_menu_veterinary"
+        sequence="11"
+        groups="tk_veterinary_management.veterinary_manager" />
+
+    <!--Animal
+    Type-->
+    <menuitem id="menu_hospital_configuration_animal_type" name="Configuration Types"
+        parent="menu_hospital_configuration"
+        sequence="1" />
+    <menuitem id="menu_hospital_animal_type"
+        name="Animal Types"
+        sequence="1"
+        parent="menu_hospital_configuration_animal_type"
+        action="animal_type_action" />
+    <menuitem id="menu_hospital_disease"
+        name="Disease Types"
+        parent="menu_hospital_configuration_animal_type"
+        action="animal_disease_action"
+        sequence="2" />
+    <menuitem id="menu_hospital_medical_report"
+        name="Report Types"
+        parent="menu_hospital_configuration_animal_type"
+        action="medical_report_action"
+        sequence="3" />
+    <menuitem id="menu_surgery_details"
+        name='Surgery Types'
+        parent="menu_hospital_configuration_animal_type"
+        action="surgery_details_action"
+        sequence="4" />
+    <menuitem id="menu_hospital_vaccine"
+        name="Vaccine Types"
+        parent="menu_hospital_configuration_animal_type"
+        action="animal_vaccine_action"
+        sequence="5" />
+
+    <!--    Intake Medicine-->
+    <menuitem id="menu_hospital_prescription_medicine" name="Medicine Details"
+        parent="menu_hospital_configuration"
+        sequence="2" />
+    <menuitem id="menu_hospital_intake_medicine"
+        name="Intake Medicine Times"
+        parent="menu_hospital_prescription_medicine"
+        action="intake_medicine_action"
+        sequence="1" />
+    <menuitem id="menu_training_inclusion"
+        name="Inclusions"
+        parent="menu_hospital_prescription_medicine"
+        action="training_inclusion_action"
+        sequence="1" />
+    <menuitem id="menu_training_exclusion"
+        name="Exclusions"
+        parent="menu_hospital_prescription_medicine"
+        action="training_exclusion_action"
+        sequence="2" />
+
+    <!--Hospital
+    Room-->
+    <menuitem id="menu_hospital_configuration_hospital_room" name="Rooms Details"
+        parent="menu_hospital_configuration"
+        sequence="8" />
+    <menuitem id="menu_hospital_room"
+        name="Rooms"
+        parent="menu_hospital_configuration_hospital_room"
+        action="hospital_room_action"
+        sequence="8" />
+
+</odoo>

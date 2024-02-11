@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+        <record id="mt_pet_service_rating" model="mail.message.subtype">
+            <field name="name">Pet Service Rating</field>
+            <field name="res_model">dev.pet.service</field>
+            <field name="default" eval="True"/>
+            <field name="description">Ratings</field>
+        </record>
+        
+        <record id="mt_pet_boarding_rating" model="mail.message.subtype">
+            <field name="name">Pet Boarding Rating</field>
+            <field name="res_model">dev.pet.boarding</field>
+            <field name="default" eval="True"/>
+            <field name="description">Ratings</field>
+        </record>
+
+        <record id="mt_pet_transportation_rating" model="mail.message.subtype">
+            <field name="name">Pet Transportation Rating</field>
+            <field name="res_model">pet.transportation</field>
+            <field name="default" eval="True"/>
+            <field name="description">Ratings</field>
+        </record>
+</odoo>

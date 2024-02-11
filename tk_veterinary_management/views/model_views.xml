@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--Maintenance Bill-->
+        <record id="maintenance_bill_form_view" model="ir.ui.view">
+            <field name="name">maintenance.bill.form.view</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='ref']" position="after">
+                    <field name="maintenance_id" attrs="{'invisible': [('maintenance_id', '=', False)]}" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

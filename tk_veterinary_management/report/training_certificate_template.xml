@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="training_certificate_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <style type='text/css'>
+                    body, html {
+                    margin: 0;
+                    padding: 0;
+                    text-align: center;
+                    }
+                    body {
+                    color: black;
+                    display: table;
+                    font-family: Georgia, serif;
+                    font-size: 24px;
+                    text-align: center;
+                    }
+                    .container {
+                    border: 18px solid tan;
+                    width: auto;
+                    height: 550px;
+                    display: table-cell;
+                    vertical-align: middle;
+                    }
+                    .logo {
+                    color: tan;
+                    font-size: 30px;
+                    margin-top: 25px;
+                    margin-bottom: 15px;
+                    }
+                    .marquee {
+                    color: tan;
+                    font-size: 35px;
+                    }
+                    .assignment {
+                    margin-top: 5px;
+                    }
+                    .person {
+                    border-bottom: 2px solid black;
+                    font-size: 25px;
+                    text-align: center;
+                    font-style: italic;
+                    margin: 20px auto;
+                    width: 475px;
+                    }
+                    .reason {
+                    font-size: 18px;
+                    padding-left: 15px;
+                    padding-right: 15px;
+                    }
+                </style>
+                <div class="d-flex justify-content-center">
+                    <div class="container">
+                        <div class="logo"> An <strong>
+                                <span t-field="doc.company_id.name" />
+                            </strong>
+                        </div>
+                        <div class="marquee"> Certificate of <strong>
+                                <span t-field="doc.package_id.name" />
+                            </strong>
+                        </div>
+                        <div class="assignment">
+                            This is to certify that
+                        </div>
+
+                        <div class="person">
+                            <strong>
+                                <span t-field="doc.patient_id.patient_name" />
+                            </strong>
+                        </div>
+                        <div class="row">
+                            <div class="col-12"
+                                style="text-align: center; margin-top: 5px; margin-bottom: 15px;">
+                                Certificate No: <span t-field="doc.certificate_no" />
+                            </div>
+                        </div>
+
+                        <div class="reason"> has successfully completed the comprehensive
+                            certificate of <strong>
+                                <span t-field="doc.package_id.name" />
+                            </strong>
+                            program offered by <strong>
+                                <span t-field="doc.company_id.name" />. </strong> The program
+                            duration was <strong>
+                                <span t-field="doc.package_days" />
+                            </strong>
+                            days course in training. has achieved excellence mark in training
+                            duration <strong>
+                                <span t-field="doc.start_date" />
+                            </strong>
+                            to <strong>
+                                <span t-field="doc.end_date" />
+                            </strong>
+                        </div>
+                        <div class="row">
+                            <div class="col-12" style="text-align: right; padding: 0px 100px;">
+                                <t t-if="doc.signature">
+                                    <img t-att-src="image_data_uri(doc.signature)" att="Logo"
+                                        style="width: 148px; height: 100px; margin-bottom: -20px;" />
+                                </t>
+                                <br />
+                                <span t-field="doc.training_employee_id.name"
+                                    style="border-top: 2px solid black; padding: 10px;" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+    <record id="training_certificat_report_template" model="ir.actions.report">
+        <field name="name">Certificate</field>
+        <field name="model">training.details</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">tk_veterinary_management.training_certificate_template</field>
+        <field name="report_file">tk_veterinary_management.training_certificate_template</field>
+        <field name="binding_model_id" ref="model_training_details" />
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Training Certificate'</field>
+    </record>
+</odoo>

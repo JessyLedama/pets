@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="staff_form_view" model="ir.ui.view">
+            <field name="name">staff.form.view</field>
+            <field name="model">hospital.staff</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" type="object" name="action_view_patient"
+                                icon="fa-users"
+                                attrs="{'invisible':[('staff','!=','doctor')]}">
+                                <field name="patient_count" string='Case' widget="statinfo" />
+                            </button>
+                            <button class="oe_stat_button" type="object" name="action_view_today_patient"
+                                icon="fa-users"
+                                attrs="{'invisible':[('staff','!=','doctor')]}">
+                                <field name="today_patient_count" string="Today's Cases" widget="statinfo" />
+                            </button>
+                            <button class="oe_stat_button" type="object"
+                                name="action_view_surgeries"
+                                icon="fa-check-square-o"
+                                attrs="{'invisible':[('staff','!=','doctor')]}">
+                                <field name="surgery_count" widget="statinfo" string='Surgeries' />
+                            </button>
+                            <button class="oe_stat_button" type="object"
+                                name="action_view_today_surgeries"
+                                icon="fa-check-square-o"
+                                attrs="{'invisible':[('staff','!=','doctor')]}">
+                                <field name="today_surgery_count" widget="statinfo" string="Today's Surgeries" />
+                            </button>
+                        </div>
+                        <field name="avatar" widget="image" class="oe_avatar"
+                            attrs="{'invisible':[('staff','=','employee')]}" />
+                        <div class="oe_title">
+                            <label for="name" />
+                            <h1>
+                                <field name="name" placeholder="Name" />
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="staff" widget="radio" options="{'horizontal': true}" />
+                            </group>
+                            <group>
+                                <field name="department"
+                                    attrs="{'invisible':[('staff','not in','employee')]}" />
+                            </group>
+                        </group>
+                        <group string="Personal Information">
+                            <group>
+                                <field name="related_partner_id" />
+                                <field name="gender" widget="radio" options="{'horizontal': true}" />
+                                <field name="date_of_brith"
+                                    attrs="{'invisible':[('staff','=','employee')]}" />
+                                <field name="phone" />
+                                <field name="email" placeholder="abc@gmail.com"
+                                    attrs="{'invisible':[('staff','=','employee')]}" />
+                                <field name="age" attrs="{'invisible':[('staff','!=','employee')]}" />
+                            </group>
+                            <group attrs="{'invisible':[('staff','=','employee')]}">
+                                <field name="degrees" />
+                                <field name="license" placeholder="DN8735A"
+                                    attrs="{'invisible':[('staff','=','employee')]}" />
+                                <field name="bird_type" widget="many2many_tags"
+                                    attrs="{'invisible':[('staff','=','nurse')]}" />
+                                <field name="specification"
+                                    attrs="{'invisible':[('staff','!=','therapist')]}" />
+                                <field name="company_id" invisible="1" />
+                                <field name="currency_id" invisible="1" />
+                                <field name="consultancy_charge"
+                                    attrs="{'invisible':[('staff','!=','doctor')]}" />
+                                <field name="consultancy_type"
+                                    attrs="{'invisible':[('staff','!=','doctor')]}" />
+                                <field name="duration_minutes" placeholder="In Minutes"
+                                    help="In Minutes"
+                                    attrs="{'invisible':[('staff', '!=', 'doctor')]}" />
+                            </group>
+                            <group>
+                                <span class="o_form_label o_td_label" name="address_name">
+                                    <strong>Address</strong>
+                                </span>
+                                <div class="o_address_format">
+                                    <field name="street" placeholder="Street..."
+                                        class="o_address_street" />
+                                    <field name="street2" placeholder="Street 2..."
+                                        class="o_address_street" />
+                                    <field name="city" placeholder="City" class="o_address_city" />
+                                    <field name="state_id" class="o_address_state"
+                                        placeholder="State"
+                                        options="{'no_create': True, 'no_create_edit': True, 'no_open': True}" />
+                                    <field name="zip" placeholder="ZIP" class="o_address_zip" />
+                                    <field name="country_id" placeholder="Country"
+                                        class="o_address_country"
+                                        options="{'no_create': True, 'no_create_edit': True, 'no_open': True}" />
+                                </div>
+                            </group>
+                        </group>
+                        <group string="Availability">
+                            <group>
+                                <field name="sunday" />
+                                <field name="monday" />
+                                <field name="tuesday" />
+                                <field name="wednesday" />
+                            </group>
+                            <group>
+                                <field name="thursday" />
+                                <field name="friday" />
+                                <field name="saturday" />
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" />
+                        <field name="activity_ids" />
+                        <field name="message_ids" />
+                    </div>
+                </form>
+            </field>
+        </record>
+        <!--DoctorTree
+        View-->
+        <record id="hospital_staff_doctor_tree_view" model="ir.ui.view">
+            <field name="name">.hospital.staff.doctor.tree.view</field>
+            <field name="model">hospital.staff</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="gender" />
+                    <field name="related_partner_id" />
+                    <field name="phone" />
+                    <field name="email" />
+                    <field name="degrees" />
+                    <field name="consultancy_type" />
+                    <field name="consultancy_charge" />
+                    <field name="currency_id" invisible="1" />
+                </tree>
+            </field>
+        </record>
+        <!--Nurse
+        Tree View-->
+        <record id="hospital_staff_nurse_tree_view" model="ir.ui.view">
+            <field name="name">.hospital.staff.nurse.tree.view</field>
+            <field name="model">hospital.staff</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="gender" />
+                    <field name="related_partner_id" />
+                    <field name="phone" />
+                    <field name="email" />
+                    <field name="degrees" />
+                </tree>
+            </field>
+        </record>
+        <!--Employee
+        Tree View-->
+        <record id="hospital_staff_employee_tree_view" model="ir.ui.view">
+            <field name="name">.hospital.staff.employee.tree.view</field>
+            <field name="model">hospital.staff</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="gender" />
+                    <field name="related_partner_id" />
+                    <field name="phone" />
+                    <field name="department" />
+                </tree>
+            </field>
+        </record>
+        <!-- staff search view -->
+        <record id="hospital_staff_search_view" model="ir.ui.view">
+            <field name="name">hospital.staff.search.view</field>
+            <field name="model">hospital.staff</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name" string="Name"/>
+                    <field name="gender" string="Gender"/>
+                    <field name="related_partner_id"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                    <field name="degrees"/>
+                    <field name="consultancy_type"/>
+                    <field name="consultancy_charge"/>
+                    <field name="department"/>
+
+                    <filter name="male_filter" string="Male" domain="[('gender', '=', 'm')]"/>
+                    <filter name="female_filter" string="Female" domain="[('gender', '=', 'f')]"/>
+                    <separator/>
+                    <filter name="consultancy_residential" string="Residential Consultancy"
+                            domain="[('consultancy_type', '=', 'residential')]"/>
+                    <filter name="consultancy_hospital" string="Hospital Consultancy"
+                            domain="[('consultancy_type', '=', 'Hospital')]"/>
+
+                    <group string="Group by" expand="0">
+                        <filter name="group_gender" string="Gender" context="{'group_by': 'gender'}"/>
+                        <separator/>
+                        <filter name="group_consultancy_type" string="Consultancy Type"
+                                context="{'group_by': 'consultancy_type'}"/>
+                        <separator/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Doctor Action -->
+        <record id="doctor_staff_action" model="ir.actions.act_window">
+            <field name="name">Doctor</field>
+            <field name="res_model">hospital.staff</field>
+            <field name="domain">[('staff','=','doctor')]</field>
+            <field name="context">{'default_staff':'doctor'}</field>
+            <field name="view_mode">tree,form,activity</field>
+            <field name="view_id" ref="hospital_staff_doctor_tree_view" />
+        </record>
+        <!-- Nurse Action -->
+        <record id="nurse_staff_action" model="ir.actions.act_window">
+            <field name="name">Nurse</field>
+            <field name="res_model">hospital.staff</field>
+            <field name="domain">[('staff','=','nurse')]</field>
+            <field name="context">{'default_staff':'nurse'}</field>
+            <field name="view_id" ref="hospital_staff_nurse_tree_view" />
+            <field name="view_mode">tree,form,activity</field>
+        </record>
+        <!-- Employee Action -->
+        <record id="employee_staff_action" model="ir.actions.act_window">
+            <field name="name">Employee</field>
+            <field name="res_model">hospital.staff</field>
+            <field name="domain">[('staff','=','employee')]</field>
+            <field name="context">{'default_staff':'employee'}</field>
+            <field name="view_mode">tree,form,activity</field>
+            <field name="view_id" ref="hospital_staff_employee_tree_view" />
+        </record>
+        <record id="staff_tree_view" model="ir.ui.view">
+            <field name="name">staff.tree.view</field>
+            <field name="model">hospital.staff</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                </tree>
+            </field>
+        </record>
+        <record id="staff_action" model="ir.actions.act_window">
+            <field name="name">Staff</field>
+            <field name="res_model">hospital.staff</field>
+            <field name="view_mode">tree,form,activity</field>
+        </record>
+    </data>
+</odoo>

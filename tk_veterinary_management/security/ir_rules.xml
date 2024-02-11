@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="0">
+        <!--Hospital Prescription-->
+        <!-- Only Manager their own records-->
+        <record id="veterinary_manager_only_see_own_records" model="ir.rule">
+            <field name="name">VM Manager: see all records</field>
+            <field name="model_id" ref="tk_veterinary_management.model_hospital_prescription"/>
+            <field name="domain_force">[(1,'=', 1)]</field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="groups" eval="[(4,ref('tk_veterinary_management.veterinary_manager'))]"/>
+        </record>
+        <!-- Only Receptionist their own records-->
+        <record id="veterinary_receptionist_only_see_own_records" model="ir.rule">
+            <field name="name">VM Receptionist: see all records</field>
+            <field name="model_id" ref="tk_veterinary_management.model_hospital_prescription"/>
+            <field name="domain_force">[(1,'=', 1)]</field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="groups" eval="[(4,ref('tk_veterinary_management.veterinary_receptionist'))]"/>
+        </record>
+        <!-- Only Doctor their own records-->
+        <record id="veterinary_pharmacist_only_see_own_records" model="ir.rule">
+            <field name="name">VM Pharmacist: own task only</field>
+            <field name="model_id" ref="tk_veterinary_management.model_hospital_prescription"/>
+            <field name="domain_force">[('pharmacist_id','=',user.id)]</field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="groups" eval="[(4,ref('tk_veterinary_management.veterinary_pharmacist'))]"/>
+        </record>
+
+        <!--Grooming Details-->
+        <!-- Only Manager their own records-->
+        <record id="veterinary_manager_only_see_own_grooming_records" model="ir.rule">
+            <field name="name">VM Manager: see all records</field>
+            <field name="model_id" ref="tk_veterinary_management.model_grooming_details"/>
+            <field name="domain_force">[(1,'=', 1)]</field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="groups" eval="[(4,ref('tk_veterinary_management.veterinary_manager'))]"/>
+        </record>
+        <!-- Only Receptionist their own records-->
+        <record id="veterinary_receptionist_only_see_own_grooming_records" model="ir.rule">
+            <field name="name">VM Receptionist: see all records</field>
+            <field name="model_id" ref="tk_veterinary_management.model_grooming_details"/>
+            <field name="domain_force">[(1,'=', 1)]</field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="groups" eval="[(4,ref('tk_veterinary_management.veterinary_receptionist'))]"/>
+        </record>
+        <!-- Only Doctor their own records-->
+        <record id="veterinary_grooming_employee_only_see_own_grooming_records" model="ir.rule">
+            <field name="name">VM Grooming Employee: own task only</field>
+            <field name="model_id" ref="tk_veterinary_management.model_grooming_details"/>
+            <field name="domain_force">[('grooming_employee_id','=',user.id)]</field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="groups" eval="[(4,ref('tk_veterinary_management.veterinary_grooming_employee'))]"/>
+        </record>
+
+        <!--Training Details-->
+        <!-- Only Manager their own records-->
+        <record id="veterinary_manager_only_see_own_training_records" model="ir.rule">
+            <field name="name">VM Manager: see all records</field>
+            <field name="model_id" ref="tk_veterinary_management.model_training_details"/>
+            <field name="domain_force">[(1,'=', 1)]</field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="groups" eval="[(4,ref('tk_veterinary_management.veterinary_manager'))]"/>
+        </record>
+        <!-- Only Receptionist their own records-->
+        <record id="veterinary_receptionist_only_see_own_training_records" model="ir.rule">
+            <field name="name">VM Receptionist: see all records</field>
+            <field name="model_id" ref="tk_veterinary_management.model_training_details"/>
+            <field name="domain_force">[(1,'=', 1)]</field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="groups" eval="[(4,ref('tk_veterinary_management.veterinary_receptionist'))]"/>
+        </record>
+        <!-- Only Doctor their own records-->
+        <record id="veterinary_training_employee_only_see_own_training_records" model="ir.rule">
+            <field name="name">VM Training Employee: own task only</field>
+            <field name="model_id" ref="tk_veterinary_management.model_training_details"/>
+            <field name="domain_force">[('training_employee_id','=',user.id)]</field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="groups" eval="[(4,ref('tk_veterinary_management.veterinary_training_employee'))]"/>
+        </record>
+
+
+        <!--Patient Report-->
+        <!-- Only Manager their own records-->
+        <record id="veterinary_manager_only_see_own_patient_report_records" model="ir.rule">
+            <field name="name">VM Manager: see all records</field>
+            <field name="model_id" ref="tk_veterinary_management.model_patient_report"/>
+            <field name="domain_force">[(1,'=', 1)]</field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="groups" eval="[(4,ref('tk_veterinary_management.veterinary_manager'))]"/>
+        </record>
+        <!-- Only Receptionist their own records-->
+        <record id="veterinary_receptionist_only_see_own_patient_report_records" model="ir.rule">
+            <field name="name">VM Receptionist: see all records</field>
+            <field name="model_id" ref="tk_veterinary_management.model_patient_report"/>
+            <field name="domain_force">[(1,'=', 1)]</field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="groups" eval="[(4,ref('tk_veterinary_management.veterinary_receptionist'))]"/>
+        </record>
+        <!-- Only Doctor their own records-->
+        <record id="veterinary_lab_technician_only_see_own_patient_report_records" model="ir.rule">
+            <field name="name">VM Lab Technician: own task only</field>
+            <field name="model_id" ref="tk_veterinary_management.model_patient_report"/>
+            <field name="domain_force">[('lab_technician_id','=',user.id)]</field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="groups" eval="[(4,ref('tk_veterinary_management.veterinary_lab_technician'))]"/>
+        </record>
+
+        <!--Procedure Cases-->
+        <!-- Manager all records-->
+        <record id="veterinary_manager_only_see_own_procedure_case_records" model="ir.rule">
+            <field name="name">VM Manager: see all records</field>
+            <field name="model_id" ref="tk_veterinary_management.model_patient_case"/>
+            <field name="domain_force">[(1,'=', 1)]</field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="groups" eval="[(4,ref('tk_veterinary_management.veterinary_manager'))]"/>
+        </record>
+        <!-- Receptionist all records-->
+        <record id="veterinary_receptionist_only_see_own_procedure_case_records" model="ir.rule">
+            <field name="name">VM Receptionist: see all records</field>
+            <field name="model_id" ref="tk_veterinary_management.model_patient_case"/>
+            <field name="domain_force">[(1,'=', 1)]</field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="groups" eval="[(4,ref('tk_veterinary_management.veterinary_receptionist'))]"/>
+        </record>
+        <!-- Only Doctor their own records-->
+        <record id="veterinary_lab_technician_only_see_own_procedure_case_records" model="ir.rule">
+            <field name="name">VM Doctor: own task only</field>
+            <field name="model_id" ref="tk_veterinary_management.model_patient_case"/>
+            <field name="domain_force">[('doctor_id.related_partner_id','=',user.partner_id.id)]</field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="groups" eval="[(4,ref('tk_veterinary_management.veterinary_doctor'))]"/>
+        </record>
+
+        <!--Surgeries-->
+        <!-- Manager all records-->
+        <record id="veterinary_manager_see_all_hospital_surgery_records" model="ir.rule">
+            <field name="name">VM Manager: see all records</field>
+            <field name="model_id" ref="tk_veterinary_management.model_hospital_surgery"/>
+            <field name="domain_force">[(1,'=', 1)]</field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="groups" eval="[(4,ref('tk_veterinary_management.veterinary_manager'))]"/>
+        </record>
+        <!-- Receptionist all records-->
+        <record id="veterinary_receptionist_see_all_hospital_surgery_records" model="ir.rule">
+            <field name="name">VM Receptionist: see all records</field>
+            <field name="model_id" ref="tk_veterinary_management.model_hospital_surgery"/>
+            <field name="domain_force">[(1,'=', 1)]</field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="groups" eval="[(4,ref('tk_veterinary_management.veterinary_receptionist'))]"/>
+        </record>
+        <!-- Only Doctor their own records-->
+        <record id="veterinary_lab_technician_only_see_own_hospital_surgery_records" model="ir.rule">
+            <field name="name">VM Doctor: own task only</field>
+            <field name="model_id" ref="tk_veterinary_management.model_hospital_surgery"/>
+            <field name="domain_force">[('doctor_id.related_partner_id','=',user.partner_id.id)]</field>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="groups" eval="[(4,ref('tk_veterinary_management.veterinary_doctor'))]"/>
+        </record>
+
+    </data>
+</odoo>

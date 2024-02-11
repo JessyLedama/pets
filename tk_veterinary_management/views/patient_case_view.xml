@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="patient_case_form_view" model="ir.ui.view">
+            <field name="name">patient.case.form.view</field>
+            <field name="model">patient.case</field>
+            <field name="arch" type="xml">
+                <form string="Patient Case">
+                    <header>
+                        <field name="state" widget="statusbar" nolabel="1" />
+                        <button name="action_confirm_appointment" type="object"
+                            string="Confirm Appointment"
+                            attrs="{'invisible':[('state','!=','draft')]}" />
+                        <button name="action_cancel_appointment" type="object" string="Cancel"
+                            attrs="{'invisible':[('state','!=','draft')]}" class="btn btn-danger" />
+                        <field name="invoice_state" invisible="1" />
+                        <button name="action_complete_case" type="object" string="Complete"
+                            class="oe_highlight"
+                            attrs="{'invisible':[('state','!=','in_consultation')]}" />
+                        <button name="action_create_prescription" type="object"
+                            string="Create Prescription"
+                            attrs="{'invisible':[('state','!=','in_consultation')]}" />
+                        <button name="action_add_surgery" type="object" string="Schedule Surgery"
+                            attrs="{'invisible':[('state','!=','in_consultation')]}" />
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box"
+                            attrs="{'invisible':[('state', 'in', ['draft', 'cancel'])]}">
+                            <button class="oe_stat_button" type="object"
+                                name="action_patient_report_count"
+                                icon="fa-file">
+                                <field name="patient_report_count" string="Reports"
+                                    widget="statinfo" />
+                            </button>
+                            <button class="oe_stat_button" type="object" name="action_surgeries"
+                                icon="fa-user-md">
+                                <field name="surgery_count" string="Surgeries" widget="statinfo" />
+                            </button>
+                            <button class="oe_stat_button" type="object" name="action_prescription"
+                                icon="fa-thumb-tack">
+                                <field name="prescription_count" string="Prescription"
+                                    widget="statinfo" />
+                            </button>
+                            <button class="oe_stat_button" type="object"
+                                name="action_view_medical_bill"
+                                icon="fa-check-square-o">
+                                <field name="medical_bill_count" string="Pending Bills"
+                                    widget="statinfo" />
+                            </button>
+                            <button class="oe_stat_button" type="object"
+                                name="action_view_medical_invoice"
+                                icon="fa-credit-card-alt">
+                                <field name="invoice_count" string="Invoices" widget="statinfo" />
+                            </button>
+                            <button type="object" class="oe_stat_button" icon="fa-pencil-square-o"
+                                name="action_invoices_amount"
+                                attrs="{'invisible':[('invoice_state','=',False)]}">
+                                <div class="o_form_field o_stat_info">
+                                    <span class="o_stat_value">
+                                        <field name="total_invoiced" readonly="1" widget="monetary" />
+                                    </span>
+                                    <span class="o_stat_text">Invoiced</span>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="case_seq" />
+                            </h1>
+                        </div>
+                        <group string="Appointment Details">
+                            <group>
+                                <field name="patient_id" required="1"
+                                    attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                                <field name="doctor_id" required="1"
+                                    attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                            </group>
+                            <group>
+                                <field name="appointment_date" required="1"
+                                    attrs="{'readonly': [('state', '!=', 'draft')]}" />
+                                <field name="doctor_ids" invisible="1" />
+                                <field name="available_nurse_ids" invisible="1" />
+                                <field name="nurse_id"
+                                    attrs="{'readonly':[('state', 'in', ['done', 'cancel'])]}"
+                                    options="{'no_open': True}" />
+                                <field name="company_id" invisible="1" />
+                                <field name="currency_id" invisible="1" />
+                            </group>
+                        </group>
+                        <group string="Procedure Details"
+                            attrs="{'invisible':[('state','in',['draft','cancel'])]}">
+                            <group>
+                                <field name="is_any_treatment"
+                                    attrs="{'readonly':[('state', 'in', ['done', 'cancel'])]}" />
+                                <field name="is_vaccination"
+                                    attrs="{'readonly':[('state', 'in', ['done', 'cancel'])]}" />
+                            </group>
+                            <group>
+                                <field name="is_admit"
+                                    attrs="{'invisible':[('is_any_treatment','=',False)], 'readonly':[('state', 'in', ['done', 'cancel'])]}" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Disease Details"
+                                attrs="{'invisible':[('state', 'in', ['draft', 'cancel'])]}">
+                                <group>
+                                    <group>
+                                        <field name="disease_ids" widget="many2many_tags"
+                                            attrs="{'required':[('state', '=', 'in_consultation')], 'readonly':[('state', 'in', ['done', 'cancel'])]}" />
+                                    </group>
+                                    <group>
+                                        <field name="disease_description"
+                                            attrs="{'required':[('state', '=', 'in_consultation')], 'readonly':[('state', 'in', ['done', 'cancel'])]}" />
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Treatments"
+                                attrs="{'invisible':[('is_any_treatment','=',False)]}">
+                                <button name="action_add_treatment_charge" type="object"
+                                    string="Add Charge to Bill" class="btn btn-primary"
+                                    attrs="{'invisible':[('state', 'in', ['done', 'cancel'])]}" />
+                                <hr />
+                                <field name="treatment_ids" force_save="1"
+                                    attrs="{'readonly':[('state','in',['done', 'cancel'])]}">
+                                    <tree editable="bottom">
+                                        <field name="description" required="1"
+                                            decoration-success="charges_added" />
+                                        <field name="precautions" required="1"
+                                            decoration-success="charges_added" />
+                                        <field name="charges" required="1"
+                                            decoration-success="charges_added" />
+                                        <field name="company_id" invisible="1" />
+                                        <field name="currency_id" invisible="1" />
+                                        <field name="charges_added" invisible="1" />
+                                    </tree>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right" style="text-align: right">
+                                    <field name="total_treatment_charge" />
+                                </group>
+                            </page>
+                            <page string="Medical Reports"
+                                attrs="{'invisible':[('is_any_treatment','=',False)]}">
+                                <field name="report_ids"
+                                    attrs="{'readonly':[('state','in',['done', 'cancel'])]}">
+                                    <tree>
+                                        <field name="report_id" />
+                                        <field name="date" />
+                                        <field name="lab_technician_id" />
+                                        <field name="file_name" invisible="1" />
+                                        <field name="document" required="1" filename="file_name"
+                                            widget="binary" />
+                                        <field name="stages" widget="badge"
+                                            decoration-info="stages == 'draft'"
+                                            decoration-warning="stages == 'in_progress'"
+                                            decoration-success="stages == 'complete'"
+                                            decoration-danger="stages == 'cancel'" />
+                                        <field name="company_id" invisible="1" />
+                                        <field name="currency_id" invisible="1" />
+                                        <field name="price" />
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <group>
+                                                <field name="report_id"
+                                                    options="{'no_create': True}" />
+                                                <field name="file_name" invisible="1" />
+                                                <field name="document" filename="file_name"
+                                                    readonly="1" force_save="1"
+                                                    widget="binary"
+                                                    attrs="{'invisible':[('document','=',False)]}" />
+                                            </group>
+                                            <group>
+                                                <field name="lab_tech_ids" invisible="1" />
+                                                <field name="lab_technician_id"
+                                                    options="{'no_open': True}" />
+                                                <field name="date" />
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Admit Details"
+                                attrs="{'invisible':[('is_admit','=',False)]}">
+                                <field name="admit" invisible="1" />
+                                <field name="is_discharge" invisible="1" />
+                                <field name="admit_added" invisible="1" />
+                                <button name="action_admit_patient" type="object" string="Admit"
+                                    attrs="{'invisible':['|', ('admit','=',True), ('state', 'in', ['done', 'cancel'])]}"
+                                    class="btn btn-primary me-2" />
+                                <button name="action_discharge_patient" type="object"
+                                    string="Discharge"
+                                    class="btn btn-success"
+                                    attrs="{'invisible':['|', '|', ('discharge_date','!=',False),('admit','=',False), ('state', 'in', ['done', 'cancel'])]}" />
+                                <button name="action_add_admit_charge" type="object"
+                                    string="Add Charge to Bill" class="btn btn-primary"
+                                    attrs="{'invisible':['|', '|',('admit_added','=',True),('is_discharge','=',False), ('state', 'in', ['done', 'cancel'])]}" />
+                                <hr />
+                                <group>
+                                    <group>
+                                        <field name="room_id"
+                                            attrs="{'readonly':[('state','in',['done', 'cancel'])]}" />
+                                        <field name="admit_date"
+                                            attrs="{'readonly':[('state','in',['done', 'cancel'])]}" />
+                                        <field name="hours" />
+                                    </group>
+                                    <group>
+                                        <field name="bed_id"
+                                            attrs="{'readonly':[('state','in',['done', 'cancel'])]}" />
+                                        <field name="discharge_date" readonly="1" force_save="1" />
+                                    </group>
+                                </group>
+                                <group class="oe_subtotal_footer oe_right" style="text-align: right">
+                                    <field name="total_admit_charge" />
+                                </group>
+                            </page>
+                            <page string="Vaccinations"
+                                attrs="{'invisible':[('is_vaccination','=',False)]}">
+                                <button name="action_add_vaccination_charge" type="object"
+                                    string="Add Charge to Bill" class="btn btn-primary"
+                                    attrs="{'invisible':[('state','in',['done', 'cancel'])]}" />
+                                <hr />
+                                <field name="vaccination_ids"
+                                    attrs="{'readonly':[('state','in',['done', 'cancel'])]}">
+                                    <tree editable="bottom">
+                                        <field name="vaccination_name" required="1"
+                                            decoration-success="charges_added" />
+                                        <field name="vaccine_data" required="1"
+                                            decoration-success="charges_added" />
+                                        <field name="vaccine_end" string="Effective Up to."
+                                            decoration-success="charges_added" />
+                                        <field name="description" decoration-success="charges_added" />
+                                        <field name="charges" decoration-success="charges_added" />
+                                        <field name="company_id" invisible="1" />
+                                        <field name="currency_id" invisible="1" />
+                                        <field name="charges_added" invisible="1" />
+                                    </tree>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right" style="text-align: right">
+                                    <field name="total_vaccination_charge" />
+                                </group>
+                            </page>
+                            <page string="Medical Bills"
+                                attrs="{'invisible':[('state', 'in', ['draft', 'cancel'])]}">
+                                <field name="case_invoice_ids"
+                                    attrs="{'readonly':[('state', 'in', ['done', 'cancel'])]}">
+                                    <tree editable="bottom">
+                                        <field name="product_id" required="1" />
+                                        <field name="name" required="1"
+                                            attrs="{'readonly':[('from_case','=',True)]}" />
+                                        <field name="date" required="1" />
+                                        <field name="company_id" invisible="1" />
+                                        <field name="currency_id" invisible="1" />
+                                        <field name="desc"
+                                            attrs="{'readonly':[('from_case','=',True)]}" />
+                                        <field name="amount"
+                                            attrs="{'readonly':[('from_case','=',True)]}" />
+                                        <field name="from_case" invisible="1" />
+                                        <field name="invoice_id" widget="many2one_clickable"
+                                            readonly="1"
+                                            force_save="1" />
+                                        <field name="payment_state"
+                                            widget="badge"
+                                            decoration-danger="payment_state == 'not_paid'"
+                                            decoration-warning="payment_state in ('partial', 'in_payment')"
+                                            decoration-success="payment_state in ('paid', 'reversed')" />
+                                        <button name="action_create_invoice" type="object"
+                                            string="Create Invoice"
+                                            class="btn btn-primary"
+                                            attrs="{'invisible':[('invoice_id','!=',False)]}" />
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" />
+                        <field name="activity_ids" />
+                        <field name="message_ids" />
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="patient_case_tree_view" model="ir.ui.view">
+            <field name="name">patient.case.tree.view</field>
+            <field name="model">patient.case</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="case_seq" />
+                    <field name="patient_id" />
+                    <field name="doctor_id" />
+                    <field name="appointment_date" />
+                    <field name="state" widget="badge"
+                        decoration-success="state=='done'"
+                        decoration-warning="state=='in_consultation'"
+                        decoration-danger="state=='cancel'" />
+                </tree>
+            </field>
+        </record>
+        <record id="patient_case_search_view" model="ir.ui.view">
+            <field name="name">patient.case.search.view</field>
+            <field name="model">patient.case</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="patient_id" />
+                    <field name="case_seq" />
+                    <field name="appointment_date" />
+                    <field name="doctor_id" />
+
+                    <filter string="Draft" name="state" domain="[('state', '=', 'draft')]" />
+                    <filter string="In Consultation" name="state"
+                        domain="[('state', '=', 'in_consultation')]" />
+                    <filter string="Closed" name="state" domain="[('state', '=', 'done')]" />
+                    <filter string="Cancelled" name="state" domain="[('state', '=', 'cancel')]" />
+                    <separator />
+                    <filter string="Treatment" name="is_any_treatment"
+                        domain="[('is_any_treatment', '=', True)]" />
+                    <separator />
+                    <filter string="Vaccination" name="is_vaccination"
+                        domain="[('is_vaccination', '=', True)]" />
+                    <separator />
+                    <filter name="appointment_date" string="Appointment Date"
+                        date="appointment_date" />
+
+                    <group string="Group By" expand="0">
+                        <filter string="Appointment Date" name="appointment_date"
+                            context="{'group_by':'appointment_date'}" />
+                        <separator />
+                        <filter string="State" name="state" context="{'group_by':'state'}" />
+                        <separator />
+                        <filter string="Doctor" name="doctor_id" context="{'group_by':'doctor_id'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="patient_case_action" model="ir.actions.act_window">
+            <field name="name">Procedures Case</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">patient.case</field>
+            <field name="view_mode">tree,form,activity</field>
+        </record>
+
+        <!--Medical
+        Bill Views-->
+        <record id="medical_bill_view_form" model="ir.ui.view">
+            <field name="name">medical.bill.view.form</field>
+            <field name="model">case.invoice</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="from_case" invisible="1" />
+                        <button name="action_create_invoice" type="object" string="Create Invoice"
+                            class="btn btn-primary"
+                            attrs="{'invisible':[('invoice_id','!=',False)]}" />
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="product_id" required="1" />
+                                <field name="name" required="1"
+                                    attrs="{'readonly':[('from_case','=',True)]}"
+                                    force_save="1" />
+                                <field name="desc" attrs="{'readonly':[('from_case','=',True)]}"
+                                    force_save="1" />
+                            </group>
+                            <group>
+                                <field name="company_id" invisible="1" />
+                                <field name="currency_id" invisible="1" />
+                                <field name="date" required="1" />
+                                <field name="amount" required="1"
+                                    attrs="{'readonly':[('from_case','=',True)]}"
+                                    force_save="1" />
+                                <field name="invoice_id" readonly="1" force_save="1"
+                                    attrs="{'invisible':[('invoice_id','=',False)]}" />
+                                <field name="payment_state"
+                                    attrs="{'invisible':[('invoice_id','=',False)]}"
+                                    widget="badge"
+                                    decoration-danger="payment_state == 'not_paid'"
+                                    decoration-warning="payment_state in ('partial', 'in_payment')"
+                                    decoration-success="payment_state in ('paid', 'reversed')" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="medical_bill_view_tree" model="ir.ui.view">
+            <field name="name">medical.bill.view.tree</field>
+            <field name="model">case.invoice</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="product_id" />
+                    <field name="name" />
+                    <field name="date" />
+                    <field name="company_id" invisible="1" />
+                    <field name="currency_id" invisible="1" />
+                    <field name="desc" />
+                    <field name="amount" />
+                    <field name="from_case" invisible="1" />
+                    <field name="invoice_id" widget="many2one_clickable" readonly="1"
+                        force_save="1" />
+                    <field name="payment_state"
+                        widget="badge"
+                        decoration-danger="payment_state == 'not_paid'"
+                        decoration-warning="payment_state in ('partial', 'in_payment')"
+                        decoration-success="payment_state in ('paid', 'reversed')" />
+                </tree>
+            </field>
+        </record>
+        <record id="ir_actions_server_medical_invoice" model="ir.actions.server">
+            <field name="name">Create Medical Invoices</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_case_invoice" />
+            <field name="state">code</field>
+            <field name="code">
+                if records:
+                action = records.create_multiple_invoice()
+            </field>
+            <field name="binding_model_id" ref="tk_veterinary_management.model_case_invoice" />
+            <field name="binding_view_types">list</field>
+        </record>
+    </data>
+</odoo>

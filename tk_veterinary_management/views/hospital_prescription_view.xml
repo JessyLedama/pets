@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hospital_prescription_form_view" model="ir.ui.view">
+            <field name="name">hospital.prescription.form.view</field>
+            <field name="model">hospital.prescription</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="sale_order_id" invisible="1" />
+                        <button name="action_create_sale_order" type="object"
+                            string="Create Sale Order"
+                            class="oe_highlight"
+                            attrs="{'invisible':[('sale_order_id', '!=', False)]}" />
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="prescription_no" />
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="case_id" options="{'no_create': True}"
+                                    attrs="{'readonly':[('sale_order_id', '!=', False)]}" />
+                                <field name="customer_id" />
+                                <field name="doctor_id" />
+                            </group>
+                            <group>
+                                <field name="prescription_date"
+                                    attrs="{'readonly':[('sale_order_id', '!=', False)]}" />
+                                <field name="pharmacists_ids" invisible="1" />
+                                <field name="pharmacist_id" widget="many2one_avatar_user"
+                                    attrs="{'readonly':[('sale_order_id', '!=', False)]}" />
+                                <field name="sale_order_id" readonly="1" force_save="1"
+                                    attrs="{'invisible': [('sale_order_id', '=', False)]}" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="prescription_details" string="Prescription Details">
+                                <field name="prescription_line_ids" nolabel="1"
+                                    attrs="{'readonly':[('sale_order_id', '!=', False)]}">
+                                    <tree editable="bottom">
+                                        <field name="product_id" />
+                                        <field name="intake_ids" widget="many2many_tags" />
+                                        <field name="quantity" />
+                                        <field name="form" />
+                                        <field name="duration" />
+                                        <field name="frequency" />
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <group>
+                                                <field name="product_id" />
+                                                <field name="intake_ids" widget="many2many_tags" />
+                                                <field name="quantity" />
+                                            </group>
+                                            <group>
+                                                <field name="form" />
+                                                <field name="duration" />
+                                                <field name="frequency" />
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" />
+                        <field name="activity_ids" />
+                        <field name="message_ids" />
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="hospital_prescription_tree_view" model="ir.ui.view">
+            <field name="name">hospital.prescription.tree.view</field>
+            <field name="model">hospital.prescription</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="prescription_no" />
+                    <field name="case_id" />
+                    <field name="doctor_id" />
+                    <field name="prescription_date" />
+                    <field name="pharmacist_id" widget="many2one_avatar_user" />
+                </tree>
+            </field>
+        </record>
+        <record id="hospital_prescription_search_view" model="ir.ui.view">
+            <field name="name">hospital.prescription.search.view</field>
+            <field name="model">hospital.prescription</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="prescription_no" />
+                    <field name="case_id" />
+                    <field name="doctor_id" />
+                    <field name="prescription_date" />
+
+                    <filter name="prescription_date" date="prescription_date" string="Date" />
+
+                    <group string="Group By">
+                        <filter name="pharmacist_id" string="Pharmacists"
+                            context="{'group_by': 'pharmacist_id'}" />
+                        <separator />
+                        <filter name="date" string="Prescription Date"
+                            context="{'group_by': 'prescription_date'}" />
+                        <separator />
+                        <filter name="animal" string="Animal"
+                            context="{'group_by': 'case_id'}" />
+
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="hospital_prescription_action" model="ir.actions.act_window">
+            <field name="name">Prescription</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hospital.prescription</field>
+            <field name="view_mode">tree,form,activity,search</field>
+            <field name="context">{'search_default_pharmacist_id': 1}</field>
+        </record>
+        <!--Intake
+        Medicine-->
+        <record id="intake_medicine_view_tree" model="ir.ui.view">
+            <field name="name">intake.medicine.view.tree</field>
+            <field name="model">intake.medicine</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name" />
+                </tree>
+            </field>
+        </record>
+        <record id="intake_medicine_action" model="ir.actions.act_window">
+            <field name="name">Intake Medicine</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">intake.medicine</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+    </data>
+</odoo>

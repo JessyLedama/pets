@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (C) 2015 DevIntelle Consulting Service Pvt.Ltd (<http://www.devintellecs.com>).
+
+For Module Support : devintelle@gmail.com  or Skype : devintelle
+ -->
+<odoo>
+    <record id="res_config_settings_pet_care_form" model="ir.ui.view">
+     <field name="name">res.config.settings.pet.care.form</field>
+     <field name="model">res.config.settings</field>
+     <field name="priority" eval="15"/>
+     <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+     <field name="arch" type="xml">
+         <xpath expr="//div[hasclass('settings')]" position="inside">
+             <div class="app_settings_block" data-string="Pet Care" string="Pet Care" data-key="dev_pet_care_management">
+                 <h2>Boarding</h2>
+                 <div class="row mt16 o_settings_container">
+                     <div class="col-12 col-lg-6 o_setting_box">
+                         <div class="o_setting_left_pane"/>
+                         <div class="o_setting_right_pane">
+                             <span class="o_form_label">Boarding Product</span>
+                             <div class="text-muted content-group mt8">
+                                 <field name="boarding_product_id" 
+                                        class="oe_inline" 
+                                        options="{'no_create': True, 'no_create_edit':True}"/>
+                             </div>
+                         </div>
+                         <div class="o_setting_left_pane mt16" />
+                         <div class="o_setting_right_pane">
+                             <span class="o_form_label">Service Product</span>
+                             <div class="text-muted content-group mt8">
+                                 <field name="service_product_id" 
+                                        class="oe_inline" 
+                                        options="{'no_create': True, 'no_create_edit':True}"/>
+                             </div>
+                         </div>
+                         
+                     </div>
+                 </div>
+                 
+             </div>
+         </xpath>
+     </field>
+ </record>
+<!-- Action View-->
+    <record id="action_res_config_setting_pet_care" model="ir.actions.act_window">
+        <field name="name">Setting</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_id" ref="res_config_settings_pet_care_form"/>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'dev_pet_care_management'}</field>
+    </record>
+
+<!--    Menus-->
+    <menuitem name="Settings" id="pet_care_setting_menu" parent='menu_dev_pet_configration' 
+              action="action_res_config_setting_pet_care" sequence='0' groups="group_pet_manager"/>
+</odoo>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (C) 2015 DevIntelle Consulting Service Pvt.Ltd (<http://www.devintellecs.com>).
+
+For Module Support : devintelle@gmail.com  or Skype : devintelle 
+ -->
+<odoo>
+    <data>
+        
+        <record id="view_dev_employee_veterinarian_view" model="ir.ui.view">
+            <field name="name">employee.veterinarian.view</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='personal_information']//field[@name='country_id']" position="before">
+                    <field name="is_veterinarian"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="open_view_employee_list_veterinarian_my" model="ir.actions.act_window">
+            <field name="name">Veterinarian</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_mode">kanban,tree,form,activity</field>
+            <field name="domain">[]</field>
+            <field name="context">{'chat_icon': True,'default_is_veterinarian':True}</field>
+            <field name="domain">[('is_veterinarian','=',True)]</field>
+            <field name="view_id" eval="False"/>
+            <field name="search_view_id" ref="hr.view_employee_filter"/>
+            <field name="help" type="html">
+             <p class="o_view_nocontent_smiling_face">
+               Add a new Veterinarian
+             </p><p>
+               With just a quick glance on the Odoo Veterinarian screen, you
+               can easily find all the information you need for each person;
+               contact data, job position, availability, etc.
+             </p>
+            </field>
+        </record>
+    
+        <menuitem name="Veterinarian" id="menu_dev_emp_veterinarian" 
+                  parent="menu_dev_contact_main" 
+                  sequence="2" 
+                  action="open_view_employee_list_veterinarian_my"/>
+        
+        
+    </data>
+</odoo>

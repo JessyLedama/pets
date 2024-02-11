@@ -1,0 +1,175 @@
+<odoo>
+    <data>
+        <record id="hospital_surgery_form_view" model="ir.ui.view">
+            <field name="name">hospital.surgery.form.view</field>
+            <field name="model">hospital.surgery</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="stage" widget="statusbar"
+                            statusbar_visible="draft,in_progress,done" />
+                        <button string="In Progress" name="action_in_progress" type="object"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('stage', 'not in', ['draft'])]}" />
+                        <button string="Complete" name="action_complete" type="object"
+                            class="oe_highlight"
+                            attrs="{'invisible': [('stage', 'not in', ['in_progress'])]}" />
+                        <button string="Cancel" name="action_cancel" type="object"
+                            attrs="{'invisible': [('stage', 'not in', ['draft'])]}" />
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="surgery_code" />
+                            </h1>
+                        </div>
+                        <group>
+                            <group string="Surgery Details">
+                                <field name="animal_id" placeholder="Animal Name"
+                                    attrs="{'readonly':[('stage', 'in', ['done', 'cancel'])]}" />
+                                <field name="case_id" options="{'no_create': True}"
+                                    attrs="{'readonly':[('stage', 'in', ['done', 'cancel'])]}" />
+                                <field name="surgery_id"
+                                    attrs="{'readonly':[('stage', 'in', ['done', 'cancel'])]}" />
+                                <field name="surgery_type"
+                                    attrs="{'readonly':[('stage', 'in', ['done', 'cancel'])]}" />
+                                <field name="surgery_charge"
+                                    attrs="{'readonly':[('stage', 'in', ['done', 'cancel'])]}" />
+                                <field name="company_id" invisible="1" />
+                                <field name="currency_id" invisible="1" />
+                                <field name="doctor_ids" invisible="1" />
+                                <field name="available_nurse_ids" invisible="1" />
+                                <field name="description"
+                                    attrs="{'readonly':[('stage', 'in', ['done', 'cancel'])]}" />
+                                <field name="agreement" filename="agreement_name"
+                                    attrs="{'readonly':[('stage', 'in', ['done', 'cancel'])]}" />
+                                <field name="agreement_name" invisible="True" />
+                            </group>
+                            <group string="Schedule">
+                                <field name="schedule_date"
+                                    attrs="{'readonly':[('stage', 'in', ['done', 'cancel'])]}" />
+                                <field name="start_date"
+                                    attrs="{'readonly':[('stage', 'in', ['done', 'cancel'])]}" />
+                                <field name="end_date"
+                                    attrs="{'readonly':[('stage', 'in', ['done', 'cancel'])]}" />
+                                <field name="tag_ids" options="{'color_field': 'color'}"
+                                    widget="many2many_tags"
+                                    attrs="{'readonly':[('stage', 'in', ['done', 'cancel'])]}" />
+                                <field name="invoice_id"
+                                    attrs="{'invisible':[('invoice_id', '=', False)]}"
+                                    widget="many2one_clickable"
+                                    readonly="1" force_save="1" />
+                            </group>
+                        </group>
+                        <group string="Medical Team Details">
+                            <group>
+                                <field name="doctor_id"
+                                    options="{'no_open': True, 'no_create': True}"
+                                    attrs="{'readonly':[('stage', 'in', ['done', 'cancel'])]}" />
+                                <field name="supportive_doctor_ids" widget="many2many_tags"
+                                    options="{'no_open': True, 'no_create': True}"
+                                    attrs="{'readonly':[('stage', 'in', ['done', 'cancel'])]}" />
+                            </group>
+                            <group>
+                                <field name="nurse_ids" widget="many2many_tags"
+                                    options="{'no_open': True, 'no_create': True}"
+                                    attrs="{'readonly':[('stage', 'in', ['done', 'cancel'])]}" />
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" />
+                        <field name="activity_ids" />
+                        <field name="message_ids" />
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="hospital_surgery_tree_view" model="ir.ui.view">
+            <field name="name">hospital.surgery.tree.view</field>
+            <field name="model">hospital.surgery</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="case_id" string="Animal" />
+                    <field name="surgery_code" />
+                    <field name="surgery_id" />
+                    <field name="description" />
+                    <field name="schedule_date" />
+                    <field name="doctor_id" />
+                    <field name="stage" widget="badge"
+                        decoration-info="stage=='draft'"
+                        decoration-warning="stage=='in_progress'"
+                        decoration-success="stage=='done'"
+                        decoration-danger="stage=='cancel'" />
+                </tree>
+            </field>
+        </record>
+        <record id="hospital_surgery_calendar_view" model="ir.ui.view">
+            <field name="name">hospital.surgery.calendar.view</field>
+            <field name="model">hospital.surgery</field>
+            <field name="arch" type="xml">
+                <calendar date_start="start_date" date_stop="end_date" mode="day" quick_add="False"
+                    hide_time="True" event_open_popup="True" color="doctor_id">
+                    <field name="case_id" string="Animal" />
+                    <field name="surgery_code" />
+                    <field name="surgery_id" filters="1" />
+                    <field name="description" />
+                    <field name="supportive_doctor_ids" widget="many2many_tags" />
+                    <field name="doctor_id" filters="1" />
+                    <field name="nurse_ids" widget="many2many_tags" />
+                </calendar>
+            </field>
+        </record>
+        <record id="hospital_surgery_search_view" model="ir.ui.view">
+            <field name="name">hospital.surgery.search.view</field>
+            <field name="model">hospital.surgery</field>
+            <field name="arch" type="xml">
+                <!-- <search>
+                    <field name="case_id" />
+                    <field name="surgery_code" />
+                    <field name="surgery_id" />
+                </search> -->
+                <search>
+                    <field name="animal_id"/>
+                    <field name="case_id"/>
+                    <field name="surgery_code"/>
+                    <field name="surgery_id"/>
+                    <field name="schedule_date"/>
+                    <field name="doctor_id"/>
+
+                    <filter name="draft" string="Draft" domain="[('stage', '=', 'draft')]"/>
+                    <filter name="in_progress" string="In Progress" domain="[('stage', '=', 'in_progress')]"/>
+                    <filter name="complete" string="Completed" domain="[('stage', '=', 'done')]"/>
+                    <filter name="cancel" string="Cancelled" domain="[('stage', '=', 'cancel')]"/>
+                    <separator/>
+                    <filter name="surgery_immediate" string="Immediate Surgery"
+                            domain="[('surgery_type', '=', 'immediate')]"/>
+                    <filter name="surgery_urgent" string="Urgent Surgery" domain="[('surgery_type', '=', 'urgent')]"/>
+                    <filter name="surgery_expedited" string="Expedited Surgery"
+                            domain="[('surgery_type', '=', 'expedited')]"/>
+                    <filter name="surgery_elective" string="Elective Surgery"
+                            domain="[('surgery_type', '=', 'elective')]"/>
+                    <separator/>
+                    <filter name="date" string="Schedule Date" date="schedule_date"/>
+
+                    <group string="Group by" expand="0">
+                        <filter name="grp_by_patient" string="Patients" context="{'group_by': 'animal_id'}"/>
+                        <filter name="grp_by_appointment" string="Appointments" context="{'group_by': 'case_id'}"/>
+                        <separator/>
+                        <filter name="grp_by_surgery" string="Surgery" context="{'group_by': 'surgery_id'}"/>
+                        <filter name="grp_by_surgeon" string="Surgeon" context="{'group_by': 'doctor_id'}"/>
+                        <filter name="grp_by_date" string="Schedule Date" context="{'group_by': 'schedule_date'}"/>
+                        <separator/>
+                        <filter name="grp_by_stage" string="Stage" context="{'group_by': 'stage'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="hospital_surgery_action" model="ir.actions.act_window">
+            <field name="name">Surgery</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hospital.surgery</field>
+            <field name="view_mode">tree,form,calendar,activity,search</field>
+        </record>
+    </data>
+</odoo>

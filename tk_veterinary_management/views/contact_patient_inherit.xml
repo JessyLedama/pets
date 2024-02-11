@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="contact_patient_inherit_form_view" model="ir.ui.view">
+            <field name="name">contact.patient.inherit.form.view</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="is_patient" string="Patient"/>
+                </xpath>
+                <xpath expr="//notebook/page[@name='internal_notes']" position="after">
+                    <page name='patient' string='Patient' attrs="{'invisible':[('is_patient','=',False)]}">
+                        <group string="Patient">
+                            <group>
+                                <field name="is_patient" string="Patient"/>
+                                <field name="patient_id"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
